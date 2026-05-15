@@ -277,10 +277,13 @@ function toggleGraph() {
 document.addEventListener("DOMContentLoaded", () => {
   initChart();
 
-  // Resize the chart the instant its container changes size --
-  // covers both expand and collapse triggered by toggleGraph().
-  new ResizeObserver(() => chart.resize())
-      .observe(document.getElementById("graph-wrap"));
+  // ResizeObserver hands us the exact new dimensions of the container
+  // the moment the browser finishes layout -- no DOM re-read, no timing gap.
+  // chart.resize(w, h) uses those values directly so it can never be stale.
+  new ResizeObserver(entries => {
+    const r = entries[0].contentRect;
+    if (r.width > 0 && r.height > 0) chart.resize(r.width, r.height);
+  }).observe(document.getElementById("graph-wrap"));
 
   fetchStatus();
   setInterval(fetchStatus, 2000);
@@ -288,6 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
 
 
