@@ -4,3 +4,5 @@ __pycache__/
 ph_controller.log
 ph_dosing.log
 .env
+
+ph_controller/sessions/

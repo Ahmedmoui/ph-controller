@@ -74,6 +74,33 @@
     }
     .save-btn:hover { background: #238636; border-color: #238636; color: #fff; }
     .save-btn:active { transform: scale(0.96); }
+    /* ── Save modal ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.65); align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+      padding: 24px; min-width: 340px; display: flex; flex-direction: column; gap: 14px;
+    }
+    .modal-title { font-size: 1rem; font-weight: 700; color: #e6edf3; }
+    .modal-hint  { font-size: 0.73rem; color: #8b949e; line-height: 1.4; }
+    .modal-input {
+      width: 100%; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9;
+      padding: 8px 10px; border-radius: 4px; font-family: "Courier New", monospace;
+      font-size: 0.88rem;
+    }
+    .modal-input:focus { outline: none; border-color: #58a6ff; }
+    .modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
+    .modal-btn {
+      padding: 7px 18px; border: none; border-radius: 4px; cursor: pointer;
+      font-family: "Courier New", monospace; font-size: 0.82rem; font-weight: 700;
+    }
+    .modal-btn.primary   { background: #238636; color: #fff; }
+    .modal-btn.primary:hover { filter: brightness(1.15); }
+    .modal-btn.secondary { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
+    .modal-btn.secondary:hover { background: #30363d; }
   </style>
 </head>
 <body>
@@ -235,28 +262,61 @@ async function adjustTarget(delta) {
 function togglePlay() { post(state.status === "running" ? "/api/pump/pause" : "/api/pump/start"); }
 function doStop()     { post("/api/pump/stop"); }
 
-// ── Save session as CSV ──────────────────────────────────────────
+// ── Save session modal ───────────────────────────────────────────
 function saveData() {
   const hist = state.history || [];
   if (hist.length === 0) {
     alert("No session data to save.\nStart the controller to begin recording.");
     return;
   }
+  // Pre-fill with a timestamp the user can overwrite
+  const ts = new Date().toISOString().slice(0, 19).replace("T", "_").replace(/:/g, "-");
+  const input = document.getElementById("save-filename");
+  input.value = `ph_session_${ts}`;
+  document.getElementById("save-modal").classList.add("show");
+  setTimeout(() => { input.select(); }, 80);  // select text so user can type straight away
+}
 
-  // Build CSV
+function closeSaveModal() {
+  document.getElementById("save-modal").classList.remove("show");
+}
+
+async function confirmSave() {
+  const hist = state.history || [];
+  const raw  = document.getElementById("save-filename").value.trim() || "ph_session";
+  const name = raw.endsWith(".csv") ? raw : raw + ".csv";
+
+  // Build CSV content
   const lines = ["time,elapsed_min,ph,pump1_acid_ml,pump2_base_ml"];
   for (const e of hist) {
     lines.push(`${e.time},${e.t_min},${e.ph},${e.pump1_ml},${e.pump2_ml}`);
   }
-  const csv  = lines.join("\n");
+  const csv = lines.join("\n");
+
+  closeSaveModal();
+
+  // showSaveFilePicker: native OS dialog -- user can navigate to USB drive
+  if (window.showSaveFilePicker) {
+    try {
+      const handle   = await window.showSaveFilePicker({
+        suggestedName: name,
+        types: [{ description: "CSV file", accept: { "text/csv": [".csv"] } }],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(csv);
+      await writable.close();
+      return;
+    } catch (e) {
+      if (e.name === "AbortError") return;  // user cancelled -- do nothing
+      // API failed for another reason; fall through to download fallback
+    }
+  }
+
+  // Fallback: standard <a download> (Chromium will use its default download folder)
   const blob = new Blob([csv], { type: "text/csv" });
   const url  = URL.createObjectURL(blob);
-
-  // Trigger browser Save-As dialog
-  const tag = document.createElement("a");
-  const ts  = new Date().toISOString().slice(0, 19).replace("T", "_").replace(/:/g, "-");
-  tag.href     = url;
-  tag.download = `ph_session_${ts}.csv`;
+  const tag  = document.createElement("a");
+  tag.href = url; tag.download = name;
   document.body.appendChild(tag);
   tag.click();
   document.body.removeChild(tag);
@@ -289,8 +349,26 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(fetchStatus, 2000);
 });
 </script>
+<!-- ── Save session modal ── -->
+<div class="modal-overlay" id="save-modal" onclick="if(event.target===this) closeSaveModal()">
+  <div class="modal-card">
+    <div class="modal-title">&#128190; Save Session</div>
+    <div class="modal-hint">
+      Name your file, then choose where to save it.<br>
+      To save to a USB drive, navigate to it in the system dialog.
+    </div>
+    <input class="modal-input" id="save-filename" type="text"
+           placeholder="e.g. Tank_A_Day3"
+           onkeydown="if(event.key==='Enter') confirmSave(); if(event.key==='Escape') closeSaveModal()">
+    <div class="modal-btns">
+      <button class="modal-btn secondary" onclick="closeSaveModal()">Cancel</button>
+      <button class="modal-btn primary"   onclick="confirmSave()">Save&#8230;</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
+
 
 
 
