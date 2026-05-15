@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.pyo
+ph_controller.log
+ph_dosing.log
+.env

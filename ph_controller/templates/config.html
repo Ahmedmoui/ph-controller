@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pH Controller &mdash; Config</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Courier New", monospace; background: #0d1117; color: #c9d1d9; min-height: 100vh; padding: 20px; }
+
+    /* ── Top bar ── */
+    .topbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #30363d; }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    h1 { font-size: 1.2rem; color: #e6edf3; }
+
+    /* ── Two-column grid ── */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+    /* ── Cards ── */
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; }
+    .card h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #8b949e; margin-bottom: 16px; }
+
+    /* ── Form fields ── */
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 0.78rem; color: #8b949e; margin-bottom: 4px; }
+    .field input { width: 100%; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9; padding: 7px 10px; border-radius: 4px; font-family: "Courier New", monospace; font-size: 0.9rem; }
+    .field input:focus { outline: none; border-color: #58a6ff; }
+
+    .rule { border: none; border-top: 1px solid #21262d; margin: 18px 0; }
+
+    /* ── Buttons ── */
+    .btn { padding: 8px 18px; border: none; border-radius: 4px; cursor: pointer; font-family: "Courier New", monospace; font-size: 0.85rem; font-weight: 700; }
+    .btn-primary { background: #238636; color: #fff; }
+    .btn-primary:hover { filter: brightness(1.2); }
+    .btn-danger  { background: #da3633; color: #fff; }
+    .btn-danger:hover  { filter: brightness(1.2); }
+    .btn-secondary { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
+    .btn-secondary:hover { background: #30363d; }
+
+    /* ── Calibration card ── */
+    .ph-reading { font-size: 3rem; font-weight: 700; color: #58a6ff; line-height: 1; margin-bottom: 4px; }
+    .cal-meta { font-size: 0.78rem; color: #8b949e; margin-bottom: 16px; }
+    .slope-box { background: #0d1117; border: 1px solid #21262d; border-radius: 4px; padding: 8px 12px; font-size: 0.78rem; color: #8b949e; margin-bottom: 16px; }
+    .slope-box span { color: #c9d1d9; }
+
+    .cal-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .cal-row label { font-size: 0.78rem; color: #8b949e; flex: 0 0 80px; }
+    .cal-row input { width: 70px; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9; padding: 5px 8px; border-radius: 4px; font-family: "Courier New", monospace; font-size: 0.85rem; text-align: center; }
+
+    .warning { background: #2d1b00; border: 1px solid #9e6a03; border-radius: 4px; padding: 8px 12px; font-size: 0.75rem; color: #e3b341; margin-bottom: 16px; }
+
+    /* ── Toast ── */
+    .toast { position: fixed; bottom: 20px; right: 20px; background: #238636; color: #fff; padding: 10px 18px; border-radius: 6px; font-size: 0.85rem; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .toast.show { opacity: 1; }
+    .toast.error { background: #da3633; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="back-link">&#8592; Dashboard</a>
+  <h1>Configuration</h1>
+</div>
+
+<div class="grid">
+
+  <!-- ── Left: settings ── -->
+  <div>
+    <div class="card">
+      <h2>I2C Settings</h2>
+      <div class="field"><label>pH Probe I2C Address (0x63 = 99)</label><input type="number" id="ph_addr"    min="1" max="127"></div>
+      <div class="field"><label>Pump 1 – Acid I2C Address (0x67 = 103)</label><input type="number" id="pump1_addr" min="1" max="127"></div>
+      <div class="field"><label>Pump 2 – Base I2C Address (0x72 = 114)</label><input type="number" id="pump2_addr" min="1" max="127"></div>
+      <div class="field"><label>I2C Bus Number</label><input type="number" id="i2c_bus" min="0" max="9"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h2>Dosing Parameters</h2>
+      <div class="field"><label>Deadband (pH &plusmn;)</label><input type="number" id="deadband" step="0.05" min="0.01" max="2.0"></div>
+      <div class="field"><label>Dose per Cycle (mL)</label><input type="number" id="dose_ml"  step="0.1"  min="0.5"  max="50"></div>
+      <div class="field"><label>Poll Interval (seconds)</label><input type="number" id="poll_sec" step="1"    min="1"    max="300"></div>
+    </div>
+
+    <div style="margin-top:14px;">
+      <button class="btn btn-primary" onclick="saveConfig()">&#10003; Save Settings</button>
+    </div>
+  </div>
+
+  <!-- ── Right: calibration ── -->
+  <div class="card">
+    <h2>pH Probe Calibration</h2>
+
+    <div class="warning">&#9888; Stop the controller before calibrating. Calibrate in order: Mid &rarr; Low &rarr; High.</div>
+
+    <div class="ph-reading" id="cal-ph">-.-</div>
+    <div class="cal-meta" id="cal-meta">Calibration: -- points stored</div>
+
+    <div class="slope-box" id="slope-box" style="display:none;">
+      Acid slope: <span id="sl-acid">--</span>% &nbsp;|&nbsp;
+      Base slope: <span id="sl-base">--</span>% &nbsp;|&nbsp;
+      Zero offset: <span id="sl-zero">--</span> mV
+    </div>
+
+    <hr class="rule">
+
+    <div class="cal-row">
+      <label>Mid point</label>
+      <input type="number" id="val-mid" value="7.00" step="0.01">
+      <button class="btn btn-secondary" onclick="calibrate('mid')">Calibrate</button>
+    </div>
+    <div class="cal-row">
+      <label>Low point</label>
+      <input type="number" id="val-low" value="4.00" step="0.01">
+      <button class="btn btn-secondary" onclick="calibrate('low')">Calibrate</button>
+    </div>
+    <div class="cal-row">
+      <label>High point</label>
+      <input type="number" id="val-high" value="10.00" step="0.01">
+      <button class="btn btn-secondary" onclick="calibrate('high')">Calibrate</button>
+    </div>
+
+    <hr class="rule">
+    <button class="btn btn-danger" onclick="clearCal()">&#9003; Clear All Calibration</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Load config into form ────────────────────────────────────────
+async function loadConfig() {
+  try {
+    const r = await fetch("/api/config");
+    const d = await r.json();
+    ["ph_addr","pump1_addr","pump2_addr","i2c_bus","deadband","dose_ml","poll_sec"]
+      .forEach(k => { const el = document.getElementById(k); if (el) el.value = d[k]; });
+  } catch(e) { console.error("loadConfig:", e); }
+}
+
+async function saveConfig() {
+  const keys  = ["ph_addr","pump1_addr","pump2_addr","i2c_bus","deadband","dose_ml","poll_sec"];
+  const intKs = new Set(["ph_addr","pump1_addr","pump2_addr","i2c_bus"]);
+  const data  = {};
+  for (const k of keys) {
+    const v = document.getElementById(k).value;
+    data[k] = intKs.has(k) ? parseInt(v, 10) : parseFloat(v);
+  }
+  try {
+    const r = await fetch("/api/config", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    toast("Settings saved", false);
+  } catch(e) { toast(e.message, true); }
+}
+
+// ── Live pH -- uses /api/status so no extra I2C read ────────────
+// The controller background thread is always reading pH; we just
+// display what it already has.  This never touches the I2C bus.
+async function fetchPH() {
+  try {
+    const r = await fetch("/api/status");
+    const d = await r.json();
+    document.getElementById("cal-ph").textContent =
+      d.current_ph != null ? Number(d.current_ph).toFixed(3) : "-.-";
+  } catch(e) { console.error("fetchPH:", e); }
+}
+
+// ── Calibration info -- only called on load + after a cal action ─
+// Reads calibration points and slope from the probe (one I2C op,
+// held off from the background thread by the lock in sensors.py).
+async function fetchCalInfo() {
+  try {
+    const r = await fetch("/api/calibrate/reading");
+    const d = await r.json();
+    const pts = d.points;
+    document.getElementById("cal-meta").textContent =
+      pts != null ? `Calibration: ${pts} point${pts !== 1 ? "s" : ""} stored` : "Calibration: unknown";
+    const sb = document.getElementById("slope-box");
+    if (d.slope) {
+      document.getElementById("sl-acid").textContent = d.slope.acid_pct.toFixed(1);
+      document.getElementById("sl-base").textContent = d.slope.base_pct.toFixed(1);
+      document.getElementById("sl-zero").textContent = d.slope.zero_mv.toFixed(2);
+      sb.style.display = "block";
+    } else {
+      sb.style.display = "none";
+    }
+  } catch(e) { console.error("fetchCalInfo:", e); }
+}
+
+async function calibrate(point) {
+  const valEl = document.getElementById("val-" + point);
+  const value  = parseFloat(valEl.value);
+  try {
+    const r = await fetch(`/api/calibrate/${point}`, {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ value })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    toast(`Cal,${point},${value} OK`, false);
+    await fetchCalInfo();   // refresh points/slope after calibrating
+  } catch(e) { toast(e.message, true); }
+}
+
+async function clearCal() {
+  if (!confirm("Clear all calibration data?")) return;
+  try {
+    const r = await fetch("/api/calibrate/clear", { method: "POST" });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    toast("Calibration cleared", false);
+    await fetchCalInfo();   // refresh after clearing
+  } catch(e) { toast(e.message, true); }
+}
+
+// ── Toast ────────────────────────────────────────────────────────
+function toast(msg, isError) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = "toast show" + (isError ? " error" : "");
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove("show"), 2500);
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  loadConfig();
+  fetchCalInfo();                      // load calibration state once on open
+  fetchPH();
+  setInterval(fetchPH, 2000);         // live pH every 2 s -- no I2C conflict
+});
+</script>
+</body>
+</html>
+

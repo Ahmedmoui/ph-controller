@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pH Controller</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Courier New", monospace; background: #0d1117; color: #c9d1d9; height: 100vh; overflow: hidden; }
+
+    .dashboard { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+
+    /* ── Left panel ── */
+    .left { background: #161b22; border-right: 1px solid #30363d; padding: 20px 18px; display: flex; flex-direction: column; gap: 18px; }
+    .rule { border: none; border-top: 1px solid #21262d; }
+
+    .top-row { display: flex; align-items: flex-start; justify-content: space-between; }
+    .ph-block .lbl { font-size: 0.7rem; color: #8b949e; text-transform: uppercase; letter-spacing: 2px; }
+    .ph-block .big { font-size: 4.8rem; font-weight: 700; color: #58a6ff; line-height: 1; letter-spacing: -2px; }
+    .cfg-link { color: #8b949e; font-size: 1.3rem; text-decoration: none; padding: 4px; line-height: 1; }
+    .cfg-link:hover { color: #c9d1d9; }
+
+    .sec-lbl { font-size: 0.68rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .target-row { display: flex; align-items: center; gap: 10px; }
+    .target-val { font-size: 2.2rem; color: #e6edf3; min-width: 56px; }
+    .spin-col { display: flex; flex-direction: column; gap: 4px; }
+    .spin-btn { width: 34px; height: 26px; background: #21262d; border: 1px solid #30363d; color: #c9d1d9; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+    .spin-btn:hover { background: #30363d; }
+
+    .pump-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
+    .pump-name { font-size: 0.82rem; color: #8b949e; }
+    .pump-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; text-transform: capitalize; }
+    .pump-badge.idle   { background: #21262d; color: #8b949e; }
+    .pump-badge.dosing { background: #1a3d2b; color: #56d364; }
+
+    .bottom { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
+    .status-row { display: flex; align-items: center; gap: 8px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+    .dot.running { background: #56d364; box-shadow: 0 0 6px #56d364aa; }
+    .dot.paused  { background: #e3b341; box-shadow: 0 0 6px #e3b341aa; }
+    .dot.stopped { background: #f85149; box-shadow: 0 0 6px #f85149aa; }
+    .status-lbl { font-size: 0.88rem; font-weight: 700; }
+    .status-lbl.running { color: #56d364; }
+    .status-lbl.paused  { color: #e3b341; }
+    .status-lbl.stopped { color: #f85149; }
+    .ctrl-btns { display: flex; gap: 8px; }
+    .ctrl-btn { width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer; font-size: 1.1rem; transition: filter 0.1s, transform 0.08s; }
+    .ctrl-btn:hover  { filter: brightness(1.25); }
+    .ctrl-btn:active { transform: scale(0.93); }
+    #btn-pp   { background: #238636; color: #fff; }
+    #btn-stop { background: #da3633; color: #fff; }
+
+    /* ── Graph panel ── */
+    .graph-panel { background: #0d1117; padding: 10px 14px 6px; display: flex; flex-direction: column; }
+
+    .graph-hdr { display: none; justify-content: flex-end; align-items: center; padding-bottom: 6px; }
+    .graph-panel.fullscreen .graph-hdr { display: flex; }
+    .collapse-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: #21262d; border: 1px solid #30363d; color: #8b949e;
+      font-size: 1.15rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.12s, color 0.12s, transform 0.08s;
+    }
+    .collapse-btn:hover  { background: #30363d; color: #e6edf3; }
+    .collapse-btn:active { transform: scale(0.91); }
+
+    .graph-wrap { flex: 1; position: relative; min-height: 0; cursor: pointer; }
+    .graph-panel.fullscreen .graph-wrap { cursor: default; }
+
+    /* Footer: hint left, save button right */
+    .graph-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 5px; }
+    .graph-hint { font-size: 0.6rem; color: #30363d; user-select: none; }
+    .graph-panel.fullscreen .graph-hint { visibility: hidden; }
+
+    .save-btn {
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #8b949e;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: "Courier New", monospace;
+      font-size: 0.72rem;
+      transition: background 0.1s, color 0.1s;
+    }
+    .save-btn:hover { background: #238636; border-color: #238636; color: #fff; }
+    .save-btn:active { transform: scale(0.96); }
+
+    .graph-panel.fullscreen { position: fixed; inset: 0; z-index: 100; padding: 10px 14px 6px; }
+  </style>
+</head>
+<body>
+<div class="dashboard">
+
+  <!-- ── Left ── -->
+  <div class="left">
+
+    <div class="top-row">
+      <div class="ph-block">
+        <div class="lbl">Current pH</div>
+        <div class="big" id="ph-val">-.-</div>
+      </div>
+      <a href="/config" class="cfg-link" title="Settings">&#9881;</a>
+    </div>
+
+    <hr class="rule">
+
+    <div>
+      <div class="sec-lbl">Target pH</div>
+      <div class="target-row">
+        <span class="target-val" id="target-val">7.0</span>
+        <div class="spin-col">
+          <button class="spin-btn" onclick="adjustTarget(0.1)">&#9650;</button>
+          <button class="spin-btn" onclick="adjustTarget(-0.1)">&#9660;</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <div>
+      <div class="sec-lbl">Pumps</div>
+      <div class="pump-row">
+        <span class="pump-name">Pump 1 &mdash; acid</span>
+        <span class="pump-badge idle" id="p1-badge">idle</span>
+      </div>
+      <div class="pump-row">
+        <span class="pump-name">Pump 2 &mdash; base</span>
+        <span class="pump-badge idle" id="p2-badge">idle</span>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <div class="bottom">
+      <div class="status-row">
+        <div class="dot stopped" id="status-dot"></div>
+        <span class="status-lbl stopped" id="status-lbl">Stopped</span>
+      </div>
+      <div class="ctrl-btns">
+        <button class="ctrl-btn" id="btn-pp"   onclick="togglePlay()" title="Start / Pause">&#9654;</button>
+        <button class="ctrl-btn" id="btn-stop" onclick="doStop()"     title="Stop">&#9632;</button>
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- ── Graph ── -->
+  <div class="graph-panel" id="graph-panel">
+    <div class="graph-hdr">
+      <button class="collapse-btn" onclick="exitFullscreen()" title="Collapse graph">&#10005;</button>
+    </div>
+    <div class="graph-wrap" onclick="handleGraphClick()">
+      <canvas id="chart"></canvas>
+    </div>
+    <div class="graph-footer">
+      <span class="graph-hint">click graph to expand</span>
+      <button class="save-btn" onclick="saveData()" title="Download session as CSV">&#128190; Save Session</button>
+    </div>
+  </div>
+
+</div><!-- /dashboard -->
+
+<script>
+let state = { status: "stopped", target_ph: 7.0, current_ph: null, history: [] };
+let chart = null;
+let isFullscreen = false;
+
+// ── Chart ────────────────────────────────────────────────────────
+function initChart() {
+  const ctx = document.getElementById("chart").getContext("2d");
+  const gc = "#21262d", tc = "#8b949e";
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      datasets: [
+        { label: "pH",                 data: [], borderColor: "#58a6ff", backgroundColor: "rgba(88,166,255,0.07)", yAxisID: "yPH", tension: 0.35, pointRadius: 2, fill: true,  borderWidth: 2 },
+        { label: "Pump 1 – acid (mL)", data: [], borderColor: "#f85149", borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
+        { label: "Pump 2 – base (mL)", data: [], borderColor: "#56d364", borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: { legend: { labels: { color: tc, font: { family: "Courier New", size: 11 }, boxWidth: 18, padding: 14 } } },
+      scales: {
+        x:   { type: "linear", title: { display: true, text: "Time (min)", color: tc, font: { size: 11 } }, ticks: { color: tc }, grid: { color: gc } },
+        yPH: { type: "linear", position: "left",  min: 0, max: 14, title: { display: true, text: "pH",          color: "#58a6ff", font: { size: 11 } }, ticks: { color: tc }, grid: { color: gc } },
+        yML: { type: "linear", position: "right",  min: 0,         title: { display: true, text: "Volume (mL)", color: tc,        font: { size: 11 } }, ticks: { color: tc }, grid: { drawOnChartArea: false } },
+      },
+    },
+  });
+}
+
+// ── UI update ────────────────────────────────────────────────────
+function updateUI(d) {
+  document.getElementById("ph-val").textContent =
+    d.current_ph != null ? d.current_ph.toFixed(3) : "-.-";
+  document.getElementById("target-val").textContent = Number(d.target_ph).toFixed(1);
+  setBadge("p1-badge", d.pump1_state);
+  setBadge("p2-badge", d.pump2_state);
+
+  const dot = document.getElementById("status-dot");
+  const lbl = document.getElementById("status-lbl");
+  dot.className = "dot " + d.status;
+  lbl.className = "status-lbl " + d.status;
+  lbl.textContent = d.status.charAt(0).toUpperCase() + d.status.slice(1);
+
+  const pp = document.getElementById("btn-pp");
+  pp.innerHTML = d.status === "running" ? "&#9646;&#9646;" : "&#9654;";
+  pp.title     = d.status === "running" ? "Pause" : "Start";
+
+  if (d.history && d.history.length) {
+    chart.data.datasets[0].data = d.history.map(e => ({ x: e.t_min, y: e.ph }));
+    chart.data.datasets[1].data = d.history.map(e => ({ x: e.t_min, y: e.pump1_ml }));
+    chart.data.datasets[2].data = d.history.map(e => ({ x: e.t_min, y: e.pump2_ml }));
+    chart.update("none");
+  }
+}
+
+function setBadge(id, st) {
+  const el = document.getElementById(id);
+  el.textContent = st;
+  el.className = "pump-badge " + (st === "dosing" ? "dosing" : "idle");
+}
+
+// ── API ──────────────────────────────────────────────────────────
+async function fetchStatus() {
+  try {
+    const r = await fetch("/api/status");
+    if (!r.ok) throw new Error(r.status);
+    state = await r.json();
+    updateUI(state);
+  } catch(e) { console.error("fetchStatus:", e); }
+}
+
+async function post(url) {
+  try { await fetch(url, { method: "POST" }); await fetchStatus(); }
+  catch(e) { console.error(url, e); }
+}
+
+async function adjustTarget(delta) {
+  const next = Math.round((state.target_ph + delta) * 10) / 10;
+  if (next < 0 || next > 14) return;
+  try {
+    await fetch("/api/target", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({ target_ph: next }) });
+    await fetchStatus();
+  } catch(e) { console.error("adjustTarget:", e); }
+}
+
+function togglePlay() { post(state.status === "running" ? "/api/pump/pause" : "/api/pump/start"); }
+function doStop()     { post("/api/pump/stop"); }
+
+// ── Save session as CSV ──────────────────────────────────────────
+function saveData() {
+  const hist = state.history || [];
+  if (hist.length === 0) {
+    alert("No session data to save.\nStart the controller to begin recording.");
+    return;
+  }
+
+  // Build CSV
+  const lines = ["time,elapsed_min,ph,pump1_acid_ml,pump2_base_ml"];
+  for (const e of hist) {
+    lines.push(`${e.time},${e.t_min},${e.ph},${e.pump1_ml},${e.pump2_ml}`);
+  }
+  const csv  = lines.join("\n");
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url  = URL.createObjectURL(blob);
+
+  // Trigger browser Save-As dialog
+  const tag = document.createElement("a");
+  const ts  = new Date().toISOString().slice(0, 19).replace("T", "_").replace(/:/g, "-");
+  tag.href     = url;
+  tag.download = `ph_session_${ts}.csv`;
+  document.body.appendChild(tag);
+  tag.click();
+  document.body.removeChild(tag);
+  URL.revokeObjectURL(url);
+}
+
+// ── Fullscreen graph ─────────────────────────────────────────────
+function handleGraphClick() { if (!isFullscreen) enterFullscreen(); }
+
+function enterFullscreen() {
+  isFullscreen = true;
+  document.getElementById("graph-panel").classList.add("fullscreen");
+  setTimeout(() => chart.resize(), 40);
+}
+
+function exitFullscreen() {
+  isFullscreen = false;
+  document.getElementById("graph-panel").classList.remove("fullscreen");
+  setTimeout(() => chart.resize(), 40);
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  initChart();
+  fetchStatus();
+  setInterval(fetchStatus, 2000);
+});
+</script>
+</body>
+</html>
+
+
