@@ -265,23 +265,31 @@ function saveData() {
 
 // ── Graph expand / collapse ───────────────────────────────────────
 // Clicking the graph-wrap toggles expanded state.
-// The left panel hides and the graph takes full width -- no z-index tricks.
 function toggleGraph() {
   isFullscreen = !isFullscreen;
   document.querySelector(".dashboard").classList.toggle("expanded", isFullscreen);
   document.getElementById("graph-hint").textContent = isFullscreen ? "click to collapse" : "click to expand";
-  setTimeout(() => chart.resize(), 40);
+  // ResizeObserver fires when the container actually finishes resizing
+  // -- no timeout needed, no guessing, no clipping.
 }
 
 // ── Init ─────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   initChart();
+
+  // Resize the chart the instant its container changes size --
+  // covers both expand and collapse triggered by toggleGraph().
+  new ResizeObserver(() => chart.resize())
+      .observe(document.getElementById("graph-wrap"));
+
   fetchStatus();
   setInterval(fetchStatus, 2000);
 });
 </script>
 </body>
 </html>
+
+
 
 
 
