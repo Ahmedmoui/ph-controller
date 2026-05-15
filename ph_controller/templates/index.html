@@ -54,41 +54,26 @@
     /* ── Graph panel ── */
     .graph-panel { background: #0d1117; padding: 10px 14px 6px; display: flex; flex-direction: column; }
 
-    .graph-hdr { display: none; justify-content: flex-end; align-items: center; padding-bottom: 6px; }
-    .graph-panel.fullscreen .graph-hdr { display: flex; }
-    .collapse-btn {
-      width: 38px; height: 38px; border-radius: 50%;
-      background: #21262d; border: 1px solid #30363d; color: #8b949e;
-      font-size: 1.15rem; line-height: 1; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.12s, color 0.12s, transform 0.08s;
-    }
-    .collapse-btn:hover  { background: #30363d; color: #e6edf3; }
-    .collapse-btn:active { transform: scale(0.91); }
+    /* Expand: hide left panel, graph takes full viewport width -- no fixed/z-index needed */
+    .dashboard.expanded { grid-template-columns: 1fr; }
+    .dashboard.expanded .left { display: none; }
 
-    .graph-wrap { flex: 1; position: relative; min-height: 0; cursor: pointer; }
-    .graph-panel.fullscreen .graph-wrap { cursor: default; }
+    .graph-wrap { flex: 1; position: relative; min-height: 0; cursor: zoom-in; }
+    .dashboard.expanded .graph-wrap { cursor: zoom-out; }
 
-    /* Footer: hint left, save button right */
+    /* Footer: hint left, controls right */
     .graph-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 5px; }
     .graph-hint { font-size: 0.6rem; color: #30363d; user-select: none; }
-    .graph-panel.fullscreen .graph-hint { visibility: hidden; }
+    .dashboard.expanded .graph-hint { visibility: hidden; }
 
     .save-btn {
-      background: #21262d;
-      border: 1px solid #30363d;
-      color: #8b949e;
-      padding: 4px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: "Courier New", monospace;
-      font-size: 0.72rem;
+      background: #21262d; border: 1px solid #30363d; color: #8b949e;
+      padding: 4px 12px; border-radius: 4px; cursor: pointer;
+      font-family: "Courier New", monospace; font-size: 0.72rem;
       transition: background 0.1s, color 0.1s;
     }
     .save-btn:hover { background: #238636; border-color: #238636; color: #fff; }
     .save-btn:active { transform: scale(0.96); }
-
-    .graph-panel.fullscreen { position: fixed; inset: 0; z-index: 100; padding: 10px 14px 6px; }
   </style>
 </head>
 <body>
@@ -149,15 +134,12 @@
 
   <!-- ── Graph ── -->
   <div class="graph-panel" id="graph-panel">
-    <div class="graph-hdr">
-      <button class="collapse-btn" onclick="exitFullscreen()" title="Collapse graph">&#10005;</button>
-    </div>
-    <div class="graph-wrap" onclick="handleGraphClick()">
+    <div class="graph-wrap" id="graph-wrap" onclick="toggleGraph()">
       <canvas id="chart"></canvas>
     </div>
     <div class="graph-footer">
-      <span class="graph-hint">click graph to expand</span>
-      <button class="save-btn" onclick="saveData()" title="Download session as CSV">&#128190; Save Session</button>
+      <span class="graph-hint" id="graph-hint">click to expand</span>
+      <button class="save-btn" onclick="saveData(); event.stopPropagation();" title="Download session as CSV">&#128190; Save Session</button>
     </div>
   </div>
 
@@ -281,18 +263,13 @@ function saveData() {
   URL.revokeObjectURL(url);
 }
 
-// ── Fullscreen graph ─────────────────────────────────────────────
-function handleGraphClick() { if (!isFullscreen) enterFullscreen(); }
-
-function enterFullscreen() {
-  isFullscreen = true;
-  document.getElementById("graph-panel").classList.add("fullscreen");
-  setTimeout(() => chart.resize(), 40);
-}
-
-function exitFullscreen() {
-  isFullscreen = false;
-  document.getElementById("graph-panel").classList.remove("fullscreen");
+// ── Graph expand / collapse ───────────────────────────────────────
+// Clicking the graph-wrap toggles expanded state.
+// The left panel hides and the graph takes full width -- no z-index tricks.
+function toggleGraph() {
+  isFullscreen = !isFullscreen;
+  document.querySelector(".dashboard").classList.toggle("expanded", isFullscreen);
+  document.getElementById("graph-hint").textContent = isFullscreen ? "click to collapse" : "click to expand";
   setTimeout(() => chart.resize(), 40);
 }
 
@@ -305,5 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
+
 
 

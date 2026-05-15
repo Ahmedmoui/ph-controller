@@ -702,3 +702,4 @@ def scan_ezo_bus(
         fd.close()
     return found
 
+

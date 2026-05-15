@@ -34,18 +34,22 @@ _i2c_lock = threading.Lock()
 
 # ── Core read ────────────────────────────────────────────────────
 
-def get_ph(address: int = 99, bus: int = 1) -> float:
+def get_ph(address: int = 99, bus: int = 1, retries: int = 3) -> float:
     if not _HW:
         ph = round(6.5 + 0.4 * math.sin(time.time() / 20.0), 3)
         print(f"[{_ts()}] SENSOR  stub pH = {ph:.3f}")
         return ph
-    with _i2c_lock:
-        with EZOPH(address=address, bus=bus) as s:
-            ph = s.read_ph()
-    if ph is None:
-        raise IOError(f"EZO-pH 0x{address:02X} returned no data")
-    print(f"[{_ts()}] SENSOR  pH = {ph:.3f}  (I2C 0x{address:02X} bus {bus})")
-    return ph
+    for attempt in range(1, retries + 1):
+        with _i2c_lock:
+            with EZOPH(address=address, bus=bus) as s:
+                ph = s.read_ph()
+        if ph is not None:
+            print(f"[{_ts()}] SENSOR  pH = {ph:.3f}  (I2C 0x{address:02X} bus {bus})")
+            return ph
+        # Sensor returned None (STATUS_PENDING or NO_DATA) -- give it more time
+        print(f"[{_ts()}] SENSOR  no data on attempt {attempt}/{retries}, retrying...")
+        time.sleep(0.2)
+    raise IOError(f"EZO-pH 0x{address:02X} returned no data after {retries} attempts")
 
 
 # ── Calibration ──────────────────────────────────────────────────
@@ -109,3 +113,4 @@ def get_calibration_info(address: int = 99, bus: int = 1) -> dict:
             "zero_mv":  slope.zero_mv,
         } if slope else None,
     }
+
