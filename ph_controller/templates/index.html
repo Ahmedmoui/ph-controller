@@ -5,199 +5,212 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>pH Controller</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/css/theme.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Courier New", monospace; background: #0d1117; color: #c9d1d9; height: 100vh; overflow: hidden; }
+    html, body { overflow: hidden; width: 100%; height: 100%; }
+    body { font-family: "Courier New", monospace; background: #0d1117; color: #c9d1d9; }
+    #chart-bg canvas { display: block; }
 
-    .dashboard { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+    /* ── Full-viewport chart ── */
+    #chart-bg { position: fixed; top: 0; right: 0; bottom: 0; left: 280px; z-index: 0; overflow: hidden; cursor: pointer; transition: left 0.22s ease; }
+    #chart-bg.expanded { left: 0; }
 
-    /* ── Left panel ── */
-    .left { background: #161b22; border-right: 1px solid #30363d; padding: 20px 18px; display: flex; flex-direction: column; gap: 18px; }
+    /* ── Floating control panel ── */
+    .left {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 280px; z-index: 10;
+      background: rgba(22, 27, 34, 0.93); backdrop-filter: blur(10px);
+      border-right: 1px solid #30363d;
+      padding: 20px 18px; display: flex; flex-direction: column; gap: 18px;
+      transition: transform 0.22s ease;
+    }
+    .left.hidden { transform: translateX(-280px); }
+
+    /* ── Bottom action bar ── */
+    .bottom-bar {
+      position: fixed; bottom: 0; right: 0; z-index: 20;
+      padding: 36px 14px 12px;
+      background: linear-gradient(to bottom, transparent, rgba(13,17,23,0.92) 55%);
+      display: flex; gap: 8px; align-items: flex-end;
+      pointer-events: none;
+    }
+    .action-btn {
+      pointer-events: all;
+      background: rgba(22,27,34,0.92); border: 1px solid #30363d; color: #8b949e;
+      padding: 7px 13px; border-radius: 4px; cursor: pointer;
+      font-family: "Courier New", monospace; font-size: 0.85rem;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .action-btn:hover { background: #238636; border-color: #238636; color: #fff; }
+    .action-btn.folder:hover { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .action-btn:active { transform: scale(0.96); }
+
+    /* ── Left panel internals ── */
     .rule { border: none; border-top: 1px solid #21262d; }
-
     .top-row { display: flex; align-items: flex-start; justify-content: space-between; }
-    .ph-block .lbl { font-size: 0.7rem; color: #8b949e; text-transform: uppercase; letter-spacing: 2px; }
+    .ph-block .lbl { font-size: 0.95rem; color: #8b949e; text-transform: uppercase; letter-spacing: 2px; }
     .ph-block .big { font-size: 4.8rem; font-weight: 700; color: #58a6ff; line-height: 1; letter-spacing: -2px; }
-    .cfg-link { color: #8b949e; font-size: 1.3rem; text-decoration: none; padding: 4px; line-height: 1; }
-    .cfg-link:hover { color: #c9d1d9; }
-
-    .sec-lbl { font-size: 0.68rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .cfg-link { color: #8b949e; font-size: 1.2rem; text-decoration: none; padding: 5px 7px; line-height: 1; border: 1px solid #30363d; border-radius: 4px; background: #21262d; transition: color 0.1s, border-color 0.1s, background 0.1s; }
+    .cfg-link:hover { color: #c9d1d9; border-color: #8b949e; background: #30363d; }
+    .sec-lbl { font-size: 0.95rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
     .target-row { display: flex; align-items: center; gap: 10px; }
     .target-val { font-size: 2.2rem; color: #e6edf3; min-width: 56px; }
     .spin-col { display: flex; flex-direction: column; gap: 4px; }
-    .spin-btn { width: 34px; height: 26px; background: #21262d; border: 1px solid #30363d; color: #c9d1d9; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
-    .spin-btn:hover { background: #30363d; }
-
+    .spin-btn { width: 36px; height: 30px; background: #21262d; border: 1px solid #30363d; color: #c9d1d9; border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: background 0.1s, border-color 0.1s, box-shadow 0.1s; }
+    .spin-btn:hover { background: #30363d; border-color: var(--blue, #58a6ff); box-shadow: 0 0 6px var(--blue, #58a6ff)44; }
     .pump-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
-    .pump-name { font-size: 0.82rem; color: #8b949e; }
-    .pump-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; text-transform: capitalize; }
+    .pump-name { font-size: 0.95rem; color: #8b949e; }
+    .pump-badge { font-size: 0.95rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; text-transform: capitalize; }
     .pump-badge.idle   { background: #21262d; color: #8b949e; }
     .pump-badge.dosing { background: #1a3d2b; color: #56d364; }
-
     .bottom { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
     .status-row { display: flex; align-items: center; gap: 8px; }
     .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
     .dot.running { background: #56d364; box-shadow: 0 0 6px #56d364aa; }
     .dot.paused  { background: #e3b341; box-shadow: 0 0 6px #e3b341aa; }
     .dot.stopped { background: #f85149; box-shadow: 0 0 6px #f85149aa; }
-    .status-lbl { font-size: 0.88rem; font-weight: 700; }
+    .status-lbl { font-size: 1rem; font-weight: 700; }
     .status-lbl.running { color: #56d364; }
     .status-lbl.paused  { color: #e3b341; }
     .status-lbl.stopped { color: #f85149; }
-    .ctrl-btns { display: flex; gap: 8px; }
-    .ctrl-btn { width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer; font-size: 1.1rem; transition: filter 0.1s, transform 0.08s; }
-    .ctrl-btn:hover  { filter: brightness(1.25); }
+    .ctrl-btns { display: flex; gap: 10px; }
+    .ctrl-btn { width: 48px; height: 48px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; font-size: 1.15rem; transition: filter 0.1s, transform 0.08s, box-shadow 0.1s; }
+    .ctrl-btn:hover  { filter: brightness(1.3); }
     .ctrl-btn:active { transform: scale(0.93); }
-    #btn-pp   { background: #238636; color: #fff; }
-    #btn-stop { background: #da3633; color: #fff; }
+    #btn-pp   { background: var(--btn-run,  #238636); color: #fff; border-color: var(--btn-run, #238636); box-shadow: 0 0 0 2px var(--btn-run, #238636), 0 0 16px var(--btn-run-glow, #23863688); }
+    #btn-stop { background: var(--btn-stop, #da3633); color: #fff; border-color: var(--btn-stop, #da3633); box-shadow: 0 0 0 2px var(--btn-stop, #da3633), 0 0 16px var(--btn-stop-glow, #da363388); }
 
-    /* ── Graph panel ── */
-    .graph-panel { background: #0d1117; padding: 10px 14px 6px; display: flex; flex-direction: column; }
-
-    /* Expand: hide left panel, graph takes full viewport width -- no fixed/z-index needed */
-    .dashboard.expanded { grid-template-columns: 1fr; }
-    .dashboard.expanded .left { display: none; }
-
-    .graph-wrap { flex: 1; position: relative; min-height: 0; cursor: zoom-in; }
-    .dashboard.expanded .graph-wrap { cursor: zoom-out; }
-
-    /* Footer: hint left, controls right */
-    .graph-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 5px; }
-    .graph-hint { font-size: 0.6rem; color: #30363d; user-select: none; }
-    .dashboard.expanded .graph-hint { visibility: hidden; }
-
-    .save-btn {
-      background: #21262d; border: 1px solid #30363d; color: #8b949e;
-      padding: 4px 12px; border-radius: 4px; cursor: pointer;
-      font-family: "Courier New", monospace; font-size: 0.72rem;
-      transition: background 0.1s, color 0.1s;
-    }
-    .save-btn:hover { background: #238636; border-color: #238636; color: #fff; }
-    .save-btn:active { transform: scale(0.96); }
-    /* ── Save modal ── */
-    .modal-overlay {
+    /* ── Save model ── */
+    .model-overlay {
       display: none; position: fixed; inset: 0; z-index: 500;
       background: rgba(0,0,0,0.65); align-items: center; justify-content: center;
     }
-    .modal-overlay.show { display: flex; }
-    .modal-card {
+    .model-overlay.show { display: flex; }
+    .model-card {
       background: #161b22; border: 1px solid #30363d; border-radius: 8px;
       padding: 24px; min-width: 340px; display: flex; flex-direction: column; gap: 14px;
     }
-    .modal-title { font-size: 1rem; font-weight: 700; color: #e6edf3; }
-    .modal-hint  { font-size: 0.73rem; color: #8b949e; line-height: 1.4; }
-    .modal-input {
+    .model-title { font-size: 1.1rem; font-weight: 700; color: #e6edf3; }
+    .model-hint  { font-size: 0.85rem; color: #8b949e; line-height: 1.4; }
+    .model-input {
       width: 100%; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9;
-      padding: 8px 10px; border-radius: 4px; font-family: "Courier New", monospace;
-      font-size: 0.88rem;
+      padding: 8px 10px; border-radius: 4px; font-family: "Courier New", monospace; font-size: 1rem;
     }
-    .modal-input:focus { outline: none; border-color: #58a6ff; }
-    .modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
-    .modal-btn {
+    .model-input:focus { outline: none; border-color: #58a6ff; }
+    .model-btns { display: flex; gap: 8px; justify-content: flex-end; }
+    .model-btn {
       padding: 7px 18px; border: none; border-radius: 4px; cursor: pointer;
-      font-family: "Courier New", monospace; font-size: 0.82rem; font-weight: 700;
+      font-family: "Courier New", monospace; font-size: 0.95rem; font-weight: 700;
     }
-    .modal-btn.primary   { background: #238636; color: #fff; }
-    .modal-btn.primary:hover { filter: brightness(1.15); }
-    .modal-btn.secondary { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
-    .modal-btn.secondary:hover { background: #30363d; }
+    .model-btn.primary   { background: #238636; color: #fff; }
+    .model-btn.primary:hover { filter: brightness(1.15); }
+    .model-btn.secondary { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
+    .model-btn.secondary:hover { background: #30363d; }
   </style>
 </head>
 <body>
-<div class="dashboard">
 
-  <!-- ── Left ── -->
-  <div class="left">
+<!-- ── Full-viewport chart ── -->
+<div id="chart-bg" onclick="togglePanel()">
+  <canvas id="chart"></canvas>
+</div>
 
-    <div class="top-row">
-      <div class="ph-block">
-        <div class="lbl">Current pH</div>
-        <div class="big" id="ph-val">-.-</div>
-      </div>
-      <a href="/config" class="cfg-link" title="Settings">&#9881;</a>
+<!-- ── Floating control panel ── -->
+<div class="left" id="ctrl-panel">
+
+  <div class="top-row">
+    <div class="ph-block">
+      <div class="lbl">Current pH</div>
+      <div class="big" id="ph-val">-.-</div>
     </div>
+    <a href="/config" class="cfg-link" title="Settings">&#9881;</a>
+  </div>
 
-    <hr class="rule">
+  <hr class="rule">
 
-    <div>
-      <div class="sec-lbl">Target pH</div>
-      <div class="target-row">
-        <span class="target-val" id="target-val">7.0</span>
-        <div class="spin-col">
-          <button class="spin-btn" onclick="adjustTarget(0.1)">&#9650;</button>
-          <button class="spin-btn" onclick="adjustTarget(-0.1)">&#9660;</button>
-        </div>
+  <div>
+    <div class="sec-lbl">Target pH</div>
+    <div class="target-row">
+      <span class="target-val" id="target-val">7.0</span>
+      <div class="spin-col">
+        <button class="spin-btn" onclick="adjustTarget(0.1)">&#9650;</button>
+        <button class="spin-btn" onclick="adjustTarget(-0.1)">&#9660;</button>
       </div>
-    </div>
-
-    <hr class="rule">
-
-    <div>
-      <div class="sec-lbl">Pumps</div>
-      <div class="pump-row">
-        <span class="pump-name">Pump 1 &mdash; acid</span>
-        <span class="pump-badge idle" id="p1-badge">idle</span>
-      </div>
-      <div class="pump-row">
-        <span class="pump-name">Pump 2 &mdash; base</span>
-        <span class="pump-badge idle" id="p2-badge">idle</span>
-      </div>
-    </div>
-
-    <hr class="rule">
-
-    <div class="bottom">
-      <div class="status-row">
-        <div class="dot stopped" id="status-dot"></div>
-        <span class="status-lbl stopped" id="status-lbl">Stopped</span>
-      </div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn" id="btn-pp"   onclick="togglePlay()" title="Start / Pause">&#9654;</button>
-        <button class="ctrl-btn" id="btn-stop" onclick="doStop()"     title="Stop">&#9632;</button>
-      </div>
-    </div>
-
-  </div><!-- /left -->
-
-  <!-- ── Graph ── -->
-  <div class="graph-panel" id="graph-panel">
-    <div class="graph-wrap" id="graph-wrap" onclick="toggleGraph()">
-      <canvas id="chart"></canvas>
-    </div>
-    <div class="graph-footer">
-      <span class="graph-hint" id="graph-hint">click to expand</span>
-      <button class="save-btn" onclick="saveData(); event.stopPropagation();" title="Download session as CSV">&#128190; Save Session</button>
     </div>
   </div>
 
-</div><!-- /dashboard -->
+  <hr class="rule">
+
+  <div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <span class="sec-lbl" style="margin-bottom:0">Pumps</span>
+        <a href="/pumps" title="Pump Control" style="color:#8b949e;font-size:0.75rem;text-decoration:none;border:1px solid #30363d;padding:2px 8px;border-radius:4px;background:#21262d;" onmouseover="this.style.color='#c9d1d9'" onmouseout="this.style.color='#8b949e'">&#9881; Control</a>
+      </div>
+    <div class="pump-row">
+      <span class="pump-name">Pump 1 &mdash; acid</span>
+      <span class="pump-badge idle" id="p1-badge">idle</span>
+    </div>
+    <div class="pump-row">
+      <span class="pump-name">Pump 2 &mdash; base</span>
+      <span class="pump-badge idle" id="p2-badge">idle</span>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="bottom">
+    <div class="status-row">
+      <div class="dot stopped" id="status-dot"></div>
+      <span class="status-lbl stopped" id="status-lbl">Stopped</span>
+    </div>
+    <div class="ctrl-btns">
+      <button class="ctrl-btn" id="btn-pp"   onclick="togglePlay()" title="Start / Pause">&#9654;</button>
+      <button class="ctrl-btn" id="btn-stop" onclick="doStop()"     title="Stop">&#9632;</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Bottom action bar ── -->
+<div class="bottom-bar">
+  <button class="action-btn folder" onclick="openSessions()" title="Browse saved sessions"><i class="fa fa-folder-open"></i> Sessions</button>
+  <button class="action-btn"        onclick="saveData()"     title="Download current session as CSV"><i class="fa fa-save"></i> Save Session</button>
+</div>
 
 <script>
 let state = { status: "stopped", target_ph: 7.0, current_ph: null, history: [] };
 let chart = null;
-let isFullscreen = false;
+let panelVisible = true;
 
 // ── Chart ────────────────────────────────────────────────────────
 function initChart() {
   const ctx = document.getElementById("chart").getContext("2d");
-  const gc = "#21262d", tc = "#8b949e";
+  const cs  = getComputedStyle(document.documentElement);
+  const cv  = n => cs.getPropertyValue(n).trim();
+  const gc  = cv("--chart-grid") || "#21262d";
+  const tc  = cv("--text-muted") || "#8b949e";
+  const cPH   = cv("--chart-ph")   || "#58a6ff";
+  const cAcid = cv("--chart-acid") || "#f85149";
+  const cBase = cv("--chart-base") || "#56d364";
   chart = new Chart(ctx, {
     type: "line",
     data: {
       datasets: [
-        { label: "pH",                 data: [], borderColor: "#58a6ff", backgroundColor: "rgba(88,166,255,0.07)", yAxisID: "yPH", tension: 0.35, pointRadius: 2, fill: true,  borderWidth: 2 },
-        { label: "Pump 1 – acid (mL)", data: [], borderColor: "#f85149", borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
-        { label: "Pump 2 – base (mL)", data: [], borderColor: "#56d364", borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
+        { label: "pH",                 data: [], borderColor: cPH,   backgroundColor: cPH + "12",  yAxisID: "yPH", tension: 0.35, pointRadius: 2, fill: true,  borderWidth: 2 },
+        { label: "Pump 1 – acid (mL)", data: [], borderColor: cAcid, borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
+        { label: "Pump 2 – base (mL)", data: [], borderColor: cBase, borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
       ],
     },
     options: {
-      responsive: true, maintainAspectRatio: false, animation: false,
+      responsive: true, maintainAspectRatio: false, animation: true,
       interaction: { mode: "index", intersect: false },
       plugins: { legend: { labels: { color: tc, font: { family: "Courier New", size: 11 }, boxWidth: 18, padding: 14 } } },
       scales: {
         x:   { type: "linear", title: { display: true, text: "Time (min)", color: tc, font: { size: 11 } }, ticks: { color: tc }, grid: { color: gc } },
-        yPH: { type: "linear", position: "left",  min: 0, max: 14, title: { display: true, text: "pH",          color: "#58a6ff", font: { size: 11 } }, ticks: { color: tc }, grid: { color: gc } },
-        yML: { type: "linear", position: "right",  min: 0,         title: { display: true, text: "Volume (mL)", color: tc,        font: { size: 11 } }, ticks: { color: tc }, grid: { drawOnChartArea: false } },
+        yPH: { type: "linear", position: "left",  min: 0, max: 14, title: { display: true, text: "pH",          color: cPH,       font: { size: 11 } }, ticks: { color: tc }, grid: { color: gc } },
+        yML: { type: "linear", position: "right", min: 0,          title: { display: true, text: "Volume (mL)", color: tc,        font: { size: 11 } }, ticks: { color: tc }, grid: { drawOnChartArea: false } },
       },
     },
   });
@@ -259,26 +272,59 @@ async function adjustTarget(delta) {
   } catch(e) { console.error("adjustTarget:", e); }
 }
 
-function togglePlay() { post(state.status === "running" ? "/api/pump/pause" : "/api/pump/start"); }
-function doStop()     { post("/api/pump/stop"); }
+function togglePlay() {
+  if (state.status === "running") {
+    post("/api/pump/pause");
+  } else if (state.status === "paused") {
+    post("/api/pump/start"); // resume — skip naming
+  } else {
+    openNameSession();       // stopped — prompt for name first
+  }
+}
 
-// ── Save session modal ───────────────────────────────────────────
+let _stopAfterSave = false;
+
+function doStop() {
+  if (state.status === "stopped") return;
+  document.getElementById("stop-confirm").classList.add("show");
+}
+function closeStopConfirm() {
+  document.getElementById("stop-confirm").classList.remove("show");
+}
+async function stopAndSave() {
+  closeStopConfirm();
+  _stopAfterSave = true;
+  saveData();
+}
+async function stopNow() {
+  closeStopConfirm();
+  await post("/api/pump/stop");
+}
+
+// ── Panel toggle ─────────────────────────────────────────────────
+function togglePanel() {
+  panelVisible = !panelVisible;
+  document.getElementById("ctrl-panel").classList.toggle("hidden", !panelVisible);
+  document.getElementById("chart-bg").classList.toggle("expanded", !panelVisible);
+  setTimeout(resizeChart, 230);
+}
+
+// ── Save session model ───────────────────────────────────────────
 function saveData() {
   const hist = state.history || [];
   if (hist.length === 0) {
     alert("No session data to save.\nStart the controller to begin recording.");
     return;
   }
-  // Pre-fill with a timestamp the user can overwrite
   const ts = new Date().toISOString().slice(0, 19).replace("T", "_").replace(/:/g, "-");
   const input = document.getElementById("save-filename");
   input.value = `ph_session_${ts}`;
-  document.getElementById("save-modal").classList.add("show");
-  setTimeout(() => { input.select(); }, 80);  // select text so user can type straight away
+  document.getElementById("save-model").classList.add("show");
+  setTimeout(() => { input.select(); }, 80);
 }
 
 function closeSaveModal() {
-  document.getElementById("save-modal").classList.remove("show");
+  document.getElementById("save-model").classList.remove("show");
 }
 
 async function confirmSave() {
@@ -286,16 +332,15 @@ async function confirmSave() {
   const raw  = document.getElementById("save-filename").value.trim() || "ph_session";
   const name = raw.endsWith(".csv") ? raw : raw + ".csv";
 
-  // Build CSV content
   const lines = ["time,elapsed_min,ph,pump1_acid_ml,pump2_base_ml"];
   for (const e of hist) {
     lines.push(`${e.time},${e.t_min},${e.ph},${e.pump1_ml},${e.pump2_ml}`);
   }
   const csv = lines.join("\n");
-
   closeSaveModal();
+  const shouldStop = _stopAfterSave;
+  _stopAfterSave = false;
 
-  // showSaveFilePicker: native OS dialog -- user can navigate to USB drive
   if (window.showSaveFilePicker) {
     try {
       const handle   = await window.showSaveFilePicker({
@@ -305,14 +350,13 @@ async function confirmSave() {
       const writable = await handle.createWritable();
       await writable.write(csv);
       await writable.close();
+      if (shouldStop) await post("/api/pump/stop");
       return;
     } catch (e) {
-      if (e.name === "AbortError") return;  // user cancelled -- do nothing
-      // API failed for another reason; fall through to download fallback
+      if (e.name === "AbortError") return;
     }
   }
 
-  // Fallback: standard <a download> (Chromium will use its default download folder)
   const blob = new Blob([csv], { type: "text/csv" });
   const url  = URL.createObjectURL(blob);
   const tag  = document.createElement("a");
@@ -321,58 +365,158 @@ async function confirmSave() {
   tag.click();
   document.body.removeChild(tag);
   URL.revokeObjectURL(url);
+  if (shouldStop) await post("/api/pump/stop");
 }
 
-// ── Graph expand / collapse ───────────────────────────────────────
-// Clicking the graph-wrap toggles expanded state.
-function toggleGraph() {
-  isFullscreen = !isFullscreen;
-  document.querySelector(".dashboard").classList.toggle("expanded", isFullscreen);
-  document.getElementById("graph-hint").textContent = isFullscreen ? "click to collapse" : "click to expand";
-  // ResizeObserver fires when the container actually finishes resizing
-  // -- no timeout needed, no guessing, no clipping.
+// ── Resize ───────────────────────────────────────────────────────
+function resizeChart() {
+  if (!chart) return;
+  const bg = document.getElementById("chart-bg");
+  const w = bg.clientWidth, h = bg.clientHeight;
+  const canvas = document.getElementById("chart");
+  canvas.style.width  = w + "px";
+  canvas.style.height = h + "px";
+  chart.resize(w, h);
+}
+
+// ── Session naming ───────────────────────────────────────────────
+function openNameSession() {
+  const ts = new Date().toISOString().slice(0, 10);
+  const input = document.getElementById("session-name-input");
+  input.value = `Session_${ts}`;
+  document.getElementById("name-session-model").classList.add("show");
+  setTimeout(() => { input.select(); }, 80);
+}
+
+function closeNameSession() {
+  document.getElementById("name-session-model").classList.remove("show");
+}
+
+async function startSession(useName) {
+  const name = useName ? document.getElementById("session-name-input").value.trim() : "";
+  closeNameSession();
+  try {
+    await fetch("/api/pump/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+    await fetchStatus();
+  } catch(e) { console.error("startSession:", e); }
+}
+
+// ── Sessions browser ─────────────────────────────────────────────
+function closeSessions() {
+  document.getElementById("sessions-model").classList.remove("show");
+}
+
+async function openSessions() {
+  const list = document.getElementById("sessions-list");
+  list.innerHTML = '<div style="color:#8b949e;font-size:0.8rem">Loading…</div>';
+  document.getElementById("sessions-model").classList.add("show");
+  try {
+    const r = await fetch("/api/sessions");
+    const files = await r.json();
+    if (!files.length) {
+      list.innerHTML = '<div style="color:#8b949e;font-size:0.8rem">No sessions found.</div>';
+      return;
+    }
+    list.innerHTML = files.map(f => {
+      const date = new Date(f.modified * 1000).toLocaleString();
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#0d1117;border:1px solid #21262d;border-radius:4px;gap:10px;">
+        <div>
+          <div style="font-size:0.78rem;color:#c9d1d9">${f.name}</div>
+          <div style="font-size:0.68rem;color:#8b949e">${date} &nbsp;&middot;&nbsp; ${f.size_kb} KB</div>
+        </div>
+        <a href="/api/sessions/${encodeURIComponent(f.name)}" download="${f.name}"
+           style="padding:5px 12px;background:#21262d;border:1px solid #30363d;color:#8b949e;border-radius:4px;font-family:'Courier New',monospace;font-size:0.72rem;text-decoration:none;white-space:nowrap;"
+           onmouseover="this.style.background='#1f6feb';this.style.borderColor='#1f6feb';this.style.color='#fff'"
+           onmouseout="this.style.background='#21262d';this.style.borderColor='#30363d';this.style.color='#8b949e'">
+          <i class="fa fa-download"></i> Download
+        </a>
+      </div>`;
+    }).join("");
+  } catch(e) {
+    list.innerHTML = '<div style="color:#f85149;font-size:0.8rem">Failed to load sessions.</div>';
+  }
 }
 
 // ── Init ─────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   initChart();
+  resizeChart();
 
-  // ResizeObserver hands us the exact new dimensions of the container
-  // the moment the browser finishes layout -- no DOM re-read, no timing gap.
-  // chart.resize(w, h) uses those values directly so it can never be stale.
-  new ResizeObserver(entries => {
-    const r = entries[0].contentRect;
-    if (r.width > 0 && r.height > 0) chart.resize(r.width, r.height);
-  }).observe(document.getElementById("graph-wrap"));
+  // three layers: event, ResizeObserver on root, polling fallback
+  window.addEventListener("resize", resizeChart);
+  new ResizeObserver(resizeChart).observe(document.getElementById("chart-bg"));
+  setInterval(() => {
+    const bg = document.getElementById("chart-bg");
+    if (chart && bg && (chart.width !== bg.clientWidth || chart.height !== bg.clientHeight))
+      resizeChart();
+  }, 200);
 
   fetchStatus();
   setInterval(fetchStatus, 2000);
 });
 </script>
-<!-- ── Save session modal ── -->
-<div class="modal-overlay" id="save-modal" onclick="if(event.target===this) closeSaveModal()">
-  <div class="modal-card">
-    <div class="modal-title">&#128190; Save Session</div>
-    <div class="modal-hint">
+
+<!-- ── Save session model ── -->
+<div class="model-overlay" id="save-model" onclick="if(event.target===this) closeSaveModal()">
+  <div class="model-card">
+    <div class="model-title"><i class="fa fa-save"></i> Save Session</div>
+    <div class="model-hint">
       Name your file, then choose where to save it.<br>
       To save to a USB drive, navigate to it in the system dialog.
     </div>
-    <input class="modal-input" id="save-filename" type="text"
+    <input class="model-input" id="save-filename" type="text"
            placeholder="e.g. Tank_A_Day3"
            onkeydown="if(event.key==='Enter') confirmSave(); if(event.key==='Escape') closeSaveModal()">
-    <div class="modal-btns">
-      <button class="modal-btn secondary" onclick="closeSaveModal()">Cancel</button>
-      <button class="modal-btn primary"   onclick="confirmSave()">Save&#8230;</button>
+    <div class="model-btns">
+      <button class="model-btn secondary" onclick="closeSaveModal()">Cancel</button>
+      <button class="model-btn primary"   onclick="confirmSave()">Save&#8230;</button>
     </div>
   </div>
 </div>
+<!-- ── Name session ── -->
+<div class="model-overlay" id="name-session-model" onclick="if(event.target===this) closeNameSession()">
+  <div class="model-card" style="max-width:380px">
+    <div class="model-title">&#9654; Name this Session</div>
+    <div class="model-hint">Give this session a label to help identify the data later. Leave it or change it — the timestamp is always appended to the filename.</div>
+    <input class="model-input" id="session-name-input" type="text" placeholder="e.g. Tank_A_Day3"
+           onkeydown="if(event.key==='Enter') startSession(true); if(event.key==='Escape') closeNameSession()">
+    <div class="model-btns">
+      <button class="model-btn secondary" onclick="startSession(false)">Skip</button>
+      <button class="model-btn primary"   onclick="startSession(true)">&#9654; Start Session</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Stop confirm ── -->
+<div class="model-overlay" id="stop-confirm" onclick="if(event.target===this) closeStopConfirm()">
+  <div class="model-card" style="max-width:340px">
+    <div class="model-title">&#9632; End Session?</div>
+    <div class="model-hint">
+      Stopping will end the current session. The data file on the Pi is already saved automatically.<br><br>
+      Do you also want to download a copy before stopping?
+    </div>
+    <div class="model-btns" style="flex-direction:column;gap:8px;">
+      <button class="model-btn primary"   onclick="stopAndSave()" style="width:100%;justify-content:center"><i class="fa fa-save"></i>&nbsp; Save &amp; Stop</button>
+      <button class="model-btn secondary" onclick="stopNow()"     style="width:100%;justify-content:center">Stop without saving</button>
+      <button class="model-btn secondary" onclick="closeStopConfirm()" style="width:100%;justify-content:center">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Sessions browser ── -->
+<div class="model-overlay" id="sessions-model" onclick="if(event.target===this) closeSessions()">
+  <div class="model-card" style="min-width:420px;max-width:560px">
+    <div class="model-title"><i class="fa fa-folder-open"></i>&nbsp; Saved Sessions</div>
+    <div id="sessions-list" style="display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto;margin-top:4px;"></div>
+    <div class="model-btns">
+      <button class="model-btn secondary" onclick="closeSessions()">Close</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
-
-
-
-
-
-
-
-

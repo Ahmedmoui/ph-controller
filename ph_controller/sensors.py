@@ -6,18 +6,15 @@ Falls back to a sine-wave stub when ezo_i2c is unavailable (non-Pi dev machines)
 
 import datetime
 import math
-import os
-import sys
 import threading
 import time
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 def _ts() -> str:
     return datetime.datetime.now().strftime("%H:%M:%S")
 
 try:
-    from ezo_i2c import EZOPH
+    from hardware.ezo_i2c import EZOPH
     _HW = True
     print(f"[{_ts()}] SENSOR  ezo_i2c loaded -- using real EZO-pH hardware")
 except Exception as _e:

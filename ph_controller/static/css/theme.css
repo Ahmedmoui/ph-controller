@@ -1,0 +1,37 @@
+﻿/* theme.css -- shared color tokens for all pages.
+   Edit values here to retheme the entire app. */
+
+:root {
+  /* ── Backgrounds ── */
+  --bg-page:      #0d1117;   /* main page / chart background */
+  --bg-panel:     #161b22;   /* side panel, cards */
+  --bg-element:   #21262d;   /* buttons, inputs, badges */
+  --bg-hover:     #30363d;   /* hover state for elements */
+
+  /* ── Borders ── */
+  --border:       #30363d;   /* standard border */
+  --border-faint: #21262d;   /* dividers, subtle separators */
+
+  /* ── Text ── */
+  --text-bright:  #e6edf3;   /* headings, important values */
+  --text-body:    #c9d1d9;   /* normal body text */
+  --text-muted:   #8b949e;   /* labels, secondary info */
+
+  /* ── Accent colors ── */
+  --blue:         #58a6ff;   /* pH value, links, focus rings */
+  --green:        #56d364;   /* running state, dosing badge */
+  --yellow:       #e3b341;   /* paused state, warnings */
+  --red:          #f85149;   /* stopped state, errors */
+
+  /* ── Buttons ── */
+  --btn-run:      #238636;   /* start/run button background */
+  --btn-run-glow: #23863688; /* start button glow */
+  --btn-stop:     #da3633;   /* stop button background */
+  --btn-stop-glow:#da363388; /* stop button glow */
+
+  /* ── Chart lines ── */
+  --chart-ph:     #58a6ff;   /* pH line color */
+  --chart-acid:   #f85149;   /* pump 1 (acid) line */
+  --chart-base:   #56d364;   /* pump 2 (base) line */
+  --chart-grid:   #21262d;   /* grid lines */
+}

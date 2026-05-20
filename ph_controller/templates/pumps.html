@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pH Controller — Pumps</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/css/theme.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: "Courier New", monospace; background: #0d1117; color: #c9d1d9; min-height: 100vh; }
+
+    /* ── Header ── */
+    .header {
+      display: flex; align-items: center; gap: 14px;
+      background: #161b22; border-bottom: 1px solid #30363d;
+      padding: 14px 24px;
+    }
+    .header a { color: #8b949e; font-size: 1.1rem; text-decoration: none; }
+    .header a:hover { color: #c9d1d9; }
+    .header h1 { font-size: 0.95rem; font-weight: 700; color: #e6edf3; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ── Lock banner ── */
+    .lock-banner {
+      display: none; background: #2d1a00; border-bottom: 1px solid #e3b341;
+      padding: 10px 24px; font-size: 0.8rem; color: #e3b341;
+      align-items: center; gap: 10px;
+    }
+    .lock-banner.show { display: flex; }
+
+    /* ── Layout ── */
+    .page { padding: 28px 24px; display: flex; gap: 24px; flex-wrap: wrap; }
+
+    /* ── Pump card ── */
+    .pump-card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+      padding: 26px; flex: 1; min-width: 300px; max-width: 520px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .card-header { display: flex; align-items: center; justify-content: space-between; }
+    .card-title { font-size: 0.72rem; font-weight: 700; color: #8b949e; text-transform: uppercase; letter-spacing: 2px; }
+    .cal-badge {
+      font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+    }
+    .cal-badge.ok  { background: #1a3d2b; color: #56d364; }
+    .cal-badge.none { background: #21262d; color: #8b949e; }
+
+    .meta-row { display: flex; gap: 18px; font-size: 0.88rem; color: #8b949e; }
+    .meta-row span { display: flex; align-items: center; gap: 5px; }
+
+    .rule { border: none; border-top: 1px solid #21262d; }
+
+    /* ── Control rows ── */
+    .ctrl-section { display: flex; flex-direction: column; gap: 10px; }
+    .ctrl-label { font-size: 0.75rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    .btn {
+      padding: 11px 20px; border-radius: 6px; border: 1px solid #30363d;
+      background: #21262d; color: #c9d1d9; cursor: pointer;
+      font-family: "Courier New", monospace; font-size: 0.95rem;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+      display: inline-flex; align-items: center; gap: 8px;
+      min-height: 44px;
+    }
+    .btn:hover:not(:disabled) { background: #30363d; }
+    .btn:active:not(:disabled) { transform: scale(0.96); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn.green { background: #1a3d2b; border-color: #238636; color: #56d364; }
+    .btn.green:hover:not(:disabled) { background: #238636; color: #fff; }
+    .btn.red   { background: #3d1a1a; border-color: #da3633; color: #f85149; }
+    .btn.red:hover:not(:disabled)   { background: #da3633; color: #fff; }
+    .btn.blue  { background: #1a2d3d; border-color: #1f6feb; color: #58a6ff; }
+    .btn.blue:hover:not(:disabled)  { background: #1f6feb; color: #fff; }
+
+    /* direction badge next to button */
+    .dir-badge { font-size: 0.72rem; color: #8b949e; padding: 2px 0; }
+
+    /* ── Wizard ── */
+    .wizard { display: none; flex-direction: column; gap: 12px; }
+    .wizard.show { display: flex; }
+    .wizard-steps { display: flex; gap: 6px; margin-bottom: 4px; }
+    .step-dot {
+      width: 32px; height: 32px; border-radius: 50%; border: 1px solid #30363d;
+      background: #21262d; color: #8b949e; font-size: 0.75rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .step-dot.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .step-dot.done   { background: #238636; border-color: #238636; color: #fff; }
+
+    .step-panel { display: none; flex-direction: column; gap: 10px; }
+    .step-panel.show { display: flex; }
+    .step-title { font-size: 0.95rem; font-weight: 700; color: #e6edf3; }
+    .step-hint  { font-size: 0.85rem; color: #8b949e; line-height: 1.6; }
+
+    .ml-input-row { display: flex; align-items: center; gap: 8px; }
+    .ml-input {
+      width: 100px; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9;
+      padding: 10px 10px; border-radius: 6px; font-family: "Courier New", monospace; font-size: 1rem;
+      min-height: 44px;
+    }
+    .ml-input:focus { outline: none; border-color: #58a6ff; }
+    .ml-unit { font-size: 0.78rem; color: #8b949e; }
+
+    .feedback { font-size: 0.75rem; min-height: 1.2em; }
+    .feedback.ok  { color: #56d364; }
+    .feedback.err { color: #f85149; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/" title="Dashboard"><i class="fa fa-arrow-left"></i></a>
+  <h1>Pump Control</h1>
+</div>
+
+<div class="lock-banner" id="lock-banner">
+  <i class="fa fa-lock"></i>
+  Auto-controller is running — stop it on the dashboard before making manual changes.
+</div>
+
+<div class="page">
+
+  <!-- Pump 1 -->
+  <div class="pump-card" id="card-1">
+    <div class="card-header">
+      <span class="card-title">Pump 1 &mdash; Acid</span>
+      <span class="cal-badge none" id="cal-badge-1">Uncalibrated</span>
+    </div>
+
+    <div class="meta-row">
+      <span><i class="fa fa-bolt"></i> <span id="voltage-1">—</span> V</span>
+      <span><i class="fa fa-exchange"></i> <span id="dir-1">Forward</span></span>
+    </div>
+
+    <hr class="rule">
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Run / Stop</div>
+      <div class="btn-row">
+        <button class="btn green" id="run-btn-1" onclick="runPump(1)">
+          <i class="fa fa-play"></i> Run
+        </button>
+        <button class="btn red" onclick="stopPump(1)">
+          <i class="fa fa-stop"></i> Stop
+        </button>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Direction</div>
+      <div class="btn-row">
+        <button class="btn blue" onclick="invertPump(1)">
+          <i class="fa fa-exchange"></i> Invert
+        </button>
+        <span class="dir-badge" id="dir-hint-1">currently forward</span>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Calibration</div>
+      <div class="btn-row">
+        <button class="btn" onclick="toggleWizard(1)">
+          <i class="fa fa-wrench"></i> Calibrate
+        </button>
+      </div>
+    </div>
+
+    <!-- Calibration wizard -->
+    <div class="wizard" id="wizard-1">
+      <div class="wizard-steps">
+        <div class="step-dot active" id="w1-dot-1">1</div>
+        <div class="step-dot"        id="w1-dot-2">2</div>
+        <div class="step-dot"        id="w1-dot-3">3</div>
+        <div class="step-dot"        id="w1-dot-4">4</div>
+      </div>
+
+      <!-- Step 1: Prime -->
+      <div class="step-panel show" id="w1-s1">
+        <div class="step-title">Step 1 — Prime the tubing</div>
+        <div class="step-hint">Fill the tubing with liquid. Click Run until you see steady flow, then Stop.</div>
+        <div class="btn-row">
+          <button class="btn green" onclick="runPump(1)"><i class="fa fa-play"></i> Run</button>
+          <button class="btn red"   onclick="stopPump(1)"><i class="fa fa-stop"></i> Stop</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn blue" onclick="wizardNext(1,1)">Next <i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 2: Dispense -->
+      <div class="step-panel" id="w1-s2">
+        <div class="step-title">Step 2 — Dispense a known volume</div>
+        <div class="step-hint">Set the volume, place a graduated cylinder under the output, then click Dispense. Do not interrupt.</div>
+        <div class="ml-input-row">
+          <input class="ml-input" id="w1-dispense-ml" type="number" min="0.5" step="0.5" value="10">
+          <span class="ml-unit">mL</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn blue" onclick="wizardDispense(1)"><i class="fa fa-tint"></i> Dispense</button>
+        </div>
+        <div class="feedback" id="w1-s2-fb"></div>
+      </div>
+
+      <!-- Step 3: Measure -->
+      <div class="step-panel" id="w1-s3">
+        <div class="step-title">Step 3 — Enter actual output</div>
+        <div class="step-hint">Measure the liquid collected and enter the actual volume below.</div>
+        <div class="ml-input-row">
+          <input class="ml-input" id="w1-actual-ml" type="number" min="0.1" step="0.1" placeholder="e.g. 9.7">
+          <span class="ml-unit">mL measured</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn blue" onclick="wizardNext(1,3)">Next <i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 4: Confirm -->
+      <div class="step-panel" id="w1-s4">
+        <div class="step-title">Step 4 — Store calibration</div>
+        <div class="step-hint" id="w1-confirm-hint">Ready to store calibration.</div>
+        <div class="btn-row">
+          <button class="btn green" onclick="wizardCalibrate(1)"><i class="fa fa-check"></i> Calibrate</button>
+          <button class="btn"       onclick="closeWizard(1)">Cancel</button>
+        </div>
+        <div class="feedback" id="w1-s4-fb"></div>
+      </div>
+    </div>
+  </div><!-- /card-1 -->
+
+  <!-- Pump 2 -->
+  <div class="pump-card" id="card-2">
+    <div class="card-header">
+      <span class="card-title">Pump 2 &mdash; Base</span>
+      <span class="cal-badge none" id="cal-badge-2">Uncalibrated</span>
+    </div>
+
+    <div class="meta-row">
+      <span><i class="fa fa-bolt"></i> <span id="voltage-2">—</span> V</span>
+      <span><i class="fa fa-exchange"></i> <span id="dir-2">Forward</span></span>
+    </div>
+
+    <hr class="rule">
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Run / Stop</div>
+      <div class="btn-row">
+        <button class="btn green" id="run-btn-2" onclick="runPump(2)">
+          <i class="fa fa-play"></i> Run
+        </button>
+        <button class="btn red" onclick="stopPump(2)">
+          <i class="fa fa-stop"></i> Stop
+        </button>
+      </div>
+    </div>
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Direction</div>
+      <div class="btn-row">
+        <button class="btn blue" onclick="invertPump(2)">
+          <i class="fa fa-exchange"></i> Invert
+        </button>
+        <span class="dir-badge" id="dir-hint-2">currently forward</span>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <div class="ctrl-section">
+      <div class="ctrl-label">Calibration</div>
+      <div class="btn-row">
+        <button class="btn" onclick="toggleWizard(2)">
+          <i class="fa fa-wrench"></i> Calibrate
+        </button>
+      </div>
+    </div>
+
+    <!-- Calibration wizard (pump 2) -->
+    <div class="wizard" id="wizard-2">
+      <div class="wizard-steps">
+        <div class="step-dot active" id="w2-dot-1">1</div>
+        <div class="step-dot"        id="w2-dot-2">2</div>
+        <div class="step-dot"        id="w2-dot-3">3</div>
+        <div class="step-dot"        id="w2-dot-4">4</div>
+      </div>
+
+      <div class="step-panel show" id="w2-s1">
+        <div class="step-title">Step 1 — Prime the tubing</div>
+        <div class="step-hint">Fill the tubing with liquid. Click Run until you see steady flow, then Stop.</div>
+        <div class="btn-row">
+          <button class="btn green" onclick="runPump(2)"><i class="fa fa-play"></i> Run</button>
+          <button class="btn red"   onclick="stopPump(2)"><i class="fa fa-stop"></i> Stop</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn blue" onclick="wizardNext(2,1)">Next <i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="step-panel" id="w2-s2">
+        <div class="step-title">Step 2 — Dispense a known volume</div>
+        <div class="step-hint">Set the volume, place a graduated cylinder under the output, then click Dispense.</div>
+        <div class="ml-input-row">
+          <input class="ml-input" id="w2-dispense-ml" type="number" min="0.5" step="0.5" value="10">
+          <span class="ml-unit">mL</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn blue" onclick="wizardDispense(2)"><i class="fa fa-tint"></i> Dispense</button>
+        </div>
+        <div class="feedback" id="w2-s2-fb"></div>
+      </div>
+
+      <div class="step-panel" id="w2-s3">
+        <div class="step-title">Step 3 — Enter actual output</div>
+        <div class="step-hint">Measure the liquid collected and enter the actual volume below.</div>
+        <div class="ml-input-row">
+          <input class="ml-input" id="w2-actual-ml" type="number" min="0.1" step="0.1" placeholder="e.g. 9.7">
+          <span class="ml-unit">mL measured</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn blue" onclick="wizardNext(2,3)">Next <i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="step-panel" id="w2-s4">
+        <div class="step-title">Step 4 — Store calibration</div>
+        <div class="step-hint" id="w2-confirm-hint">Ready to store calibration.</div>
+        <div class="btn-row">
+          <button class="btn green" onclick="wizardCalibrate(2)"><i class="fa fa-check"></i> Calibrate</button>
+          <button class="btn"       onclick="closeWizard(2)">Cancel</button>
+        </div>
+        <div class="feedback" id="w2-s4-fb"></div>
+      </div>
+    </div>
+  </div><!-- /card-2 -->
+
+</div><!-- /page -->
+
+<script>
+// ── State ────────────────────────────────────────────────────────
+let locked = false;
+let wizardActualMl = { 1: null, 2: null };
+
+// ── API helpers ──────────────────────────────────────────────────
+async function api(method, path, body) {
+  const opts = { method };
+  if (body) { opts.headers = {"Content-Type":"application/json"}; opts.body = JSON.stringify(body); }
+  const r = await fetch(path, opts);
+  return r.json();
+}
+
+// ── Poll status ──────────────────────────────────────────────────
+async function pollStatus() {
+  for (const id of [1, 2]) {
+    try {
+      const s = await api("GET", `/api/pump/${id}/status`);
+      updateCard(id, s);
+    } catch(e) { console.error(`pump ${id} status:`, e); }
+  }
+}
+
+function updateCard(id, s) {
+  locked = s.locked;
+  document.getElementById("lock-banner").classList.toggle("show", locked);
+
+  // Voltage
+  const v = s.voltage != null ? Number(s.voltage).toFixed(1) : "—";
+  document.getElementById(`voltage-${id}`).textContent = v;
+
+  // Direction
+  const dir = s.inverted ? "Reversed" : "Forward";
+  document.getElementById(`dir-${id}`).textContent = dir;
+  document.getElementById(`dir-hint-${id}`).textContent = `currently ${dir.toLowerCase()}`;
+
+  // Cal badge
+  const badge = document.getElementById(`cal-badge-${id}`);
+  if (s.cal_status > 0) {
+    badge.textContent = "Calibrated"; badge.className = "cal-badge ok";
+  } else {
+    badge.textContent = "Uncalibrated"; badge.className = "cal-badge none";
+  }
+
+  // Disable controls if locked
+  const card = document.getElementById(`card-${id}`);
+  card.querySelectorAll(".btn").forEach(b => {
+    // Stop button is always enabled so user can kill a runaway pump
+    if (!b.classList.contains("red")) b.disabled = locked;
+  });
+}
+
+// ── Pump controls ─────────────────────────────────────────────────
+async function runPump(id) {
+  if (locked) return;
+  const inverted = document.getElementById(`dir-${id}`).textContent === "Reversed";
+  await api("POST", `/api/pump/${id}/run`, { reverse: inverted });
+  document.getElementById(`run-btn-${id}`).innerHTML = '<i class="fa fa-circle"></i> Running';
+}
+
+async function stopPump(id) {
+  await api("POST", `/api/pump/${id}/stop`);
+  document.getElementById(`run-btn-${id}`).innerHTML = '<i class="fa fa-play"></i> Run';
+}
+
+async function invertPump(id) {
+  if (locked) return;
+  await api("POST", `/api/pump/${id}/invert`);
+  await pollStatus();
+}
+
+// ── Wizard ────────────────────────────────────────────────────────
+function toggleWizard(id) {
+  const w = document.getElementById(`wizard-${id}`);
+  if (w.classList.contains("show")) { closeWizard(id); } else { openWizard(id); }
+}
+
+function openWizard(id) {
+  closeWizard(id === 1 ? 2 : 1);   // close the other wizard
+  wizardGoTo(id, 1);
+  document.getElementById(`wizard-${id}`).classList.add("show");
+}
+
+function closeWizard(id) {
+  document.getElementById(`wizard-${id}`).classList.remove("show");
+}
+
+function wizardGoTo(id, step) {
+  for (let s = 1; s <= 4; s++) {
+    document.getElementById(`w${id}-s${s}`).classList.toggle("show", s === step);
+    const dot = document.getElementById(`w${id}-dot-${s}`);
+    dot.className = "step-dot" + (s < step ? " done" : s === step ? " active" : "");
+  }
+}
+
+function wizardNext(id, fromStep) {
+  if (fromStep === 3) {
+    const raw = parseFloat(document.getElementById(`w${id}-actual-ml`).value);
+    if (isNaN(raw) || raw <= 0) {
+      alert("Enter a valid measured volume first.");
+      return;
+    }
+    wizardActualMl[id] = raw;
+    document.getElementById(`w${id}-confirm-hint`).textContent =
+      `You measured ${raw.toFixed(2)} mL. Click Calibrate to store this.`;
+  }
+  wizardGoTo(id, fromStep + 1);
+}
+
+async function wizardDispense(id) {
+  if (locked) return;
+  const ml = parseFloat(document.getElementById(`w${id}-dispense-ml`).value);
+  if (isNaN(ml) || ml <= 0) { alert("Enter a valid volume."); return; }
+  const fb = document.getElementById(`w${id}-s2-fb`);
+  fb.textContent = `Dispensing ${ml} mL…`; fb.className = "feedback";
+  const r = await api("POST", `/api/pump/${id}/dispense`, { ml });
+  if (r.ok) {
+    fb.textContent = `Done — ${ml} mL commanded. Wait for pump to finish, then measure output.`;
+    fb.className = "feedback ok";
+    // Seed step 3 with the commanded volume as a sensible default
+    document.getElementById(`w${id}-actual-ml`).value = ml.toFixed(1);
+    setTimeout(() => wizardGoTo(id, 3), 1800);
+  } else {
+    fb.textContent = r.error || "Dispense failed."; fb.className = "feedback err";
+  }
+}
+
+async function wizardCalibrate(id) {
+  if (locked) return;
+  const actual = wizardActualMl[id];
+  if (!actual) { alert("Go back and enter the measured volume."); return; }
+  const fb = document.getElementById(`w${id}-s4-fb`);
+  fb.textContent = "Storing…"; fb.className = "feedback";
+  const r = await api("POST", `/api/pump/${id}/calibrate`, { actual_ml: actual });
+  if (r.ok) {
+    fb.textContent = "Calibration stored."; fb.className = "feedback ok";
+    setTimeout(() => { closeWizard(id); pollStatus(); }, 1200);
+  } else {
+    fb.textContent = r.error || "Calibration failed."; fb.className = "feedback err";
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+pollStatus();
+setInterval(pollStatus, 3000);
+</script>
+</body>
+</html>

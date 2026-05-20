@@ -22,11 +22,12 @@ Pump convention:
 import csv
 import datetime
 import os
+import re
 import threading
 import time
 from collections import deque
 
-import pump
+from hardware import pump
 import sensors
 from config import load as load_config
 
@@ -62,7 +63,7 @@ class Controller:
     # Public API
     # ------------------------------------------------------------------
 
-    def start(self):
+    def start(self, name: str = None):
         with self.lock:
             if self.status == "running":
                 return
@@ -71,7 +72,7 @@ class Controller:
                 self.pump1_dosed = 0.0
                 self.pump2_dosed = 0.0
                 self.history.clear()
-                self._open_session_csv()
+                self._open_session_csv(name)
                 print(f"[{_ts()}] CTRL    fresh session started")
             self.status = "running"
             print(f"[{_ts()}] CTRL    status -> running")
@@ -130,12 +131,17 @@ class Controller:
     # Internal helpers
     # ------------------------------------------------------------------
 
-    def _open_session_csv(self):
+    def _open_session_csv(self, name: str = None):
         """Open a new timestamped CSV file. Call with self.lock held."""
         try:
             os.makedirs(SESSIONS_DIR, exist_ok=True)
             ts_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            path   = os.path.join(SESSIONS_DIR, f"session_{ts_str}.csv")
+            if name:
+                safe = re.sub(r"[^\w\-]", "_", name.strip())[:40].strip("_")
+                filename = f"{safe}_{ts_str}.csv"
+            else:
+                filename = f"session_{ts_str}.csv"
+            path   = os.path.join(SESSIONS_DIR, filename)
             self._csv_file      = open(path, "w", newline="")
             self._csv_writer    = csv.writer(self._csv_file)
             self._csv_writer.writerow(
