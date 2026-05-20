@@ -16,7 +16,7 @@ Includes a full web dashboard, manual pump control, calibration wizards, and ses
 | Qty | Component | Description | Link |
 |---|---|---|---|
 | 1 | Raspberry Pi 4 Model B | Main controller | [Amazon](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TD42S27/) |
-| 1 | Atlas Scientific pH Kit | EZO-pH circuit + probe + calibration solutions | [Atlas Scientific](https://atlas-scientific.com/kits/ph-kit/) |
+| 1 | Atlas Scientific EZO-pH Circuit | Embedded pH circuit | [Atlas Scientific](https://atlas-scientific.com/embedded-solutions/ezo-ph-circuit/) |
 | 2 | Atlas Scientific EZO-PMP Kit | Peristaltic pump + EZO-PMP circuit (one acid, one base) | [Atlas Scientific](https://atlas-scientific.com/kits/ezo-pmp-kit/) |
 | 1 | Atlas Scientific i3 Interlink | Electrical isolation between Pi and EZO circuits | [Atlas Scientific](https://atlas-scientific.com/electrical-isolation/i3-interlink/) |
 | 1 | Hosyond Touchscreen | Capacitive touchscreen display for the Pi | [Amazon](https://www.amazon.com/Hosyond-Touchscreen-Compatible-Capacitive-Driver-Free/dp/B0D3QB7X4Z) |
