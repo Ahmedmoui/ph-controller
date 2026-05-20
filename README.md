@@ -11,14 +11,36 @@ Includes a full web dashboard, manual pump control, calibration wizards, and ses
 
 ---
 
+## Bill of Materials
+
+| Qty | Component | Description | Link |
+|---|---|---|---|
+| 1 | Raspberry Pi 4 Model B | Main controller | [Amazon](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TD42S27/) |
+| 1 | Atlas Scientific pH Kit | EZO-pH circuit + probe + calibration solutions | [Atlas Scientific](https://atlas-scientific.com/kits/ph-kit/) |
+| 2 | Atlas Scientific EZO-PMP Kit | Peristaltic pump + EZO-PMP circuit (one acid, one base) | [Atlas Scientific](https://atlas-scientific.com/kits/ezo-pmp-kit/) |
+| 1 | Atlas Scientific i3 Interlink | Electrical isolation between Pi and EZO circuits | [Atlas Scientific](https://atlas-scientific.com/electrical-isolation/i3-interlink/) |
+| 1 | Hosyond Touchscreen | Capacitive touchscreen display for the Pi | [Amazon](https://www.amazon.com/Hosyond-Touchscreen-Compatible-Capacitive-Driver-Free/dp/B0D3QB7X4Z) |
+
+> **Note:** The EZO-PMP requires two power supplies — 3.3–5.5 V for the control PCB (from the Pi) and 12–24 V for the motor.
+
+---
+
+## Enclosure
+
+> **TODO:** STL and STEP files for a 3D-printed housing will be added in a future release.
+
+---
+
 ## Hardware
 
 | Component | Model | Default I2C Address |
 |---|---|---|
 | pH probe circuit | Atlas Scientific EZO-pH | `0x63` (99) |
-| Acid pump | Atlas Scientific EZO-PMP | `0x67` (103) |
-| Base pump | Atlas Scientific EZO-PMP | `0x72` (114) |
-| Controller | Raspberry Pi (any model with I2C) | — |
+| Acid pump (Pump 1) | Atlas Scientific EZO-PMP | `0x67` (103) |
+| Base pump (Pump 2) | Atlas Scientific EZO-PMP | `0x72` (114) |
+| Controller | Raspberry Pi 4 Model B | — |
+| Display | Hosyond Capacitive Touchscreen | — |
+| Isolation | Atlas Scientific i3 Interlink | — |
 
 I2C addresses and dosing parameters are configurable via the web dashboard at `/config`.
 
