@@ -595,3 +595,834 @@
 127.0.0.1 - - [19/May/2026 17:01:35] "GET /api/status HTTP/1.1" 200 -
 10.0.0.99 - - [19/May/2026 17:01:37] "GET /api/status HTTP/1.1" 200 -
 127.0.0.1 - - [19/May/2026 17:01:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:39] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:41] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:43] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:45] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:47] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:49] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:51] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:53] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:55] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:57] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:01:59] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:01:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:01] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:03] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:05] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:07] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:09] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:11] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:13] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:13] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:15] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:17] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:19] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:21] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:23] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:27] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:29] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:31] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:33] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:36] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:42] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:44] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:46] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:48] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:50] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:52] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:54] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:56] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:02:58] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:02:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:02] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:04] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:06] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:08] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:11] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:13] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:13] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:15] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:17] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:19] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:21] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:21] "GET /api/status HTTP/1.1" 200 -
+
+[16:59:16] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:18] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:20] SENSOR  pH = 4.323  (I2C 0x63 bus 1)
+[16:59:22] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:24] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:26] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:27] SENSOR  pH = 4.325  (I2C 0x63 bus 1)
+[16:59:29] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:31] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:33] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:34] PUMP    0x72 run continuous forward
+[16:59:35] SENSOR  pH = 4.326  (I2C 0x63 bus 1)
+[16:59:35] PUMP    0x72 stop
+[16:59:37] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:39] PUMP    0x72 invert direction
+[16:59:39] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:41] PUMP    0x72 invert direction
+[16:59:41] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:42] PUMP    0x72 invert direction
+[16:59:43] SENSOR  pH = 4.317  (I2C 0x63 bus 1)
+[16:59:43] PUMP    0x72 invert direction
+[16:59:45] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:47] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:47] PUMP    0x72 run continuous forward
+[16:59:48] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:50] SENSOR  pH = 4.323  (I2C 0x63 bus 1)
+[16:59:51] PUMP    0x72 invert direction
+[16:59:52] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:54] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:55] PUMP    0x72 invert direction
+[16:59:56] CTRL    sensor error: EZO-pH 0x63 returned no data
+[16:59:58] SENSOR  pH = 4.324  (I2C 0x63 bus 1)
+[16:59:59] PUMP    0x72 invert direction
+[17:00:00] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:00] PUMP    0x72 stop
+[17:00:02] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:04] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:05] PUMP    0x72 invert direction
+[17:00:06] SENSOR  pH = 4.329  (I2C 0x63 bus 1)
+[17:00:07] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:09] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:11] PUMP    0x72 invert direction
+[17:00:11] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:13] SENSOR  pH = 4.311  (I2C 0x63 bus 1)
+[17:00:15] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:17] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:19] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:21] SENSOR  pH = 4.319  (I2C 0x63 bus 1)
+[17:00:23] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:25] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:25] PUMP    0x72 run continuous forward
+[17:00:27] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:29] SENSOR  pH = 4.316  (I2C 0x63 bus 1)
+[17:00:30] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:32] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:34] PUMP    0x72 stop
+[17:00:34] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:36] SENSOR  pH = 4.328  (I2C 0x63 bus 1)
+[17:00:38] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:40] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:42] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:44] SENSOR  pH = 4.315  (I2C 0x63 bus 1)
+[17:00:46] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:48] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:50] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:51] SENSOR  pH = 4.314  (I2C 0x63 bus 1)
+[17:00:53] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:55] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:57] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:00:59] SENSOR  pH = 4.310  (I2C 0x63 bus 1)
+[17:01:01] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:03] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:05] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:07] SENSOR  pH = 4.318  (I2C 0x63 bus 1)
+[17:01:09] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:11] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:12] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:14] SENSOR  pH = 4.318  (I2C 0x63 bus 1)
+[17:01:16] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:18] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:20] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:22] SENSOR  pH = 4.321  (I2C 0x63 bus 1)
+[17:01:24] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:26] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:28] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:30] SENSOR  pH = 4.311  (I2C 0x63 bus 1)
+[17:01:31] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:33] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:35] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:37] SENSOR  pH = 4.327  (I2C 0x63 bus 1)
+[17:01:39] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:41] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:43] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:45] SENSOR  pH = 4.314  (I2C 0x63 bus 1)
+[17:01:47] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:49] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:51] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:52] SENSOR  pH = 4.317  (I2C 0x63 bus 1)
+[17:01:54] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:56] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:01:58] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:00] SENSOR  pH = 4.324  (I2C 0x63 bus 1)
+[17:02:02] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:04] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:06] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:08] SENSOR  pH = 4.323  (I2C 0x63 bus 1)
+[17:02:10] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:12] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:13] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:15] SENSOR  pH = 4.322  (I2C 0x63 bus 1)
+[17:02:17] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:19] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:21] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:23] SENSOR  pH = 4.325  (I2C 0x63 bus 1)
+[17:02:25] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:27] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:29] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:31] SENSOR  pH = 4.327  (I2C 0x63 bus 1)
+[17:02:33] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:34] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:36] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:38] SENSOR  pH = 4.318  (I2C 0x63 bus 1)
+[17:02:40] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:42] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:44] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:46] SENSOR  pH = 4.318  (I2C 0x63 bus 1)
+[17:02:48] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:50] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:52] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:54] SENSOR  pH = 4.314  (I2C 0x63 bus 1)
+[17:02:55] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:57] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:02:59] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:01] SENSOR  pH = 4.327  (I2C 0x63 bus 1)
+[17:03:03] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:05] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:07] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:09] SENSOR  pH = 4.324  (I2C 0x63 bus 1)
+[17:03:11] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:13] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:15] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:16] SENSOR  pH = 4.318  (I2C 0x63 bus 1)
+[17:03:18] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:20] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:22] CTRL    sensor error: EZO-pH 0x63 returned no data10.0.0.99 - - [19/May/2026 17:03:23] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:27] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:29] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:31] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:33] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:35] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:35] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:42] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:44] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:46] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:48] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:50] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:52] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:54] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:56] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:03:58] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:03:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:02] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:04] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:06] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:08] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:10] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:13] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:13] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:15] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:17] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:19] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:21] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:23] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:27] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:29] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:31] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:33] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:35] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:37] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:37] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:39] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:41] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:43] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:45] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:48] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:50] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:52] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:54] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:56] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:04:58] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:04:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:02] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:04] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:06] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:08] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:10] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:12] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:13] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:14] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:16] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:18] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:20] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:22] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:24] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:26] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:28] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:30] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:32] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:35] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:36] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:41] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:43] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:45] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:47] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:49] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:49] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:52] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:54] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:56] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:05:58] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:05:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:02] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:04] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:06] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:08] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:10] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:12] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:13] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:14] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:16] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:18] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:20] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:23] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:27] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:29] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:31] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:31] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:33] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:35] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:42] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:44] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:46] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:48] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:50] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:52] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:54] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:56] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:06:58] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:06:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:02] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:05] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:07] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:09] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:11] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:13] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:13] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:15] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:17] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:19] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:21] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:23] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:26] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:28] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:30] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:32] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:34] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:36] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:42] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:44] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:46] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:48] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:50] "GET /api/status HTTP/1.1" 200 -
+
+[17:03:24] SENSOR  pH = 4.319  (I2C 0x63 bus 1)
+[17:03:26] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:28] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:30] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:32] SENSOR  pH = 4.315  (I2C 0x63 bus 1)
+[17:03:34] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:36] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:37] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:39] SENSOR  pH = 4.316  (I2C 0x63 bus 1)
+[17:03:41] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:43] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:45] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:47] SENSOR  pH = 4.321  (I2C 0x63 bus 1)
+[17:03:49] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:51] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:53] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:55] SENSOR  pH = 4.325  (I2C 0x63 bus 1)
+[17:03:57] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:03:58] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:00] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:02] SENSOR  pH = 4.329  (I2C 0x63 bus 1)
+[17:04:04] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:06] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:08] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:10] SENSOR  pH = 4.322  (I2C 0x63 bus 1)
+[17:04:12] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:14] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:16] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:17] SENSOR  pH = 4.317  (I2C 0x63 bus 1)
+[17:04:19] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:21] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:23] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:25] SENSOR  pH = 4.319  (I2C 0x63 bus 1)
+[17:04:27] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:29] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:31] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:33] SENSOR  pH = 4.320  (I2C 0x63 bus 1)
+[17:04:35] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:37] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:38] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:40] SENSOR  pH = 4.330  (I2C 0x63 bus 1)
+[17:04:42] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:44] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:46] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:48] SENSOR  pH = 4.327  (I2C 0x63 bus 1)
+[17:04:50] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:52] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:54] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:56] SENSOR  pH = 4.323  (I2C 0x63 bus 1)
+[17:04:58] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:04:59] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:01] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:03] SENSOR  pH = 4.321  (I2C 0x63 bus 1)
+[17:05:05] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:07] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:09] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:11] SENSOR  pH = 4.324  (I2C 0x63 bus 1)
+[17:05:13] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:15] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:17] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:19] SENSOR  pH = 4.328  (I2C 0x63 bus 1)
+[17:05:20] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:22] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:24] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:26] SENSOR  pH = 4.320  (I2C 0x63 bus 1)
+[17:05:28] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:30] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:32] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:34] SENSOR  pH = 4.321  (I2C 0x63 bus 1)
+[17:05:36] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:38] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:40] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:41] SENSOR  pH = 4.331  (I2C 0x63 bus 1)
+[17:05:43] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:45] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:47] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:49] SENSOR  pH = 4.322  (I2C 0x63 bus 1)
+[17:05:51] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:53] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:55] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:05:57] SENSOR  pH = 4.315  (I2C 0x63 bus 1)
+[17:05:59] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:01] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:02] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:04] SENSOR  pH = 4.318  (I2C 0x63 bus 1)
+[17:06:06] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:08] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:10] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:12] SENSOR  pH = 4.326  (I2C 0x63 bus 1)
+[17:06:14] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:16] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:18] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:20] SENSOR  pH = 4.317  (I2C 0x63 bus 1)
+[17:06:21] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:23] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:25] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:27] SENSOR  pH = 4.321  (I2C 0x63 bus 1)
+[17:06:29] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:31] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:33] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:35] SENSOR  pH = 4.315  (I2C 0x63 bus 1)
+[17:06:37] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:39] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:41] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:42] SENSOR  pH = 4.321  (I2C 0x63 bus 1)
+[17:06:44] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:46] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:48] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:50] SENSOR  pH = 4.328  (I2C 0x63 bus 1)
+[17:06:52] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:54] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:56] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:06:58] SENSOR  pH = 4.318  (I2C 0x63 bus 1)
+[17:07:00] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:02] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:03] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:05] SENSOR  pH = 4.317  (I2C 0x63 bus 1)
+[17:07:07] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:09] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:11] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:13] SENSOR  pH = 4.321  (I2C 0x63 bus 1)
+[17:07:15] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:17] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:19] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:21] SENSOR  pH = 4.328  (I2C 0x63 bus 1)
+[17:07:23] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:24] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:26] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:28] SENSOR  pH = 4.326  (I2C 0x63 bus 1)
+[17:07:30] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:32] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:34] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:36] SENSOR  pH = 4.326  (I2C 0x63 bus 1)
+[17:07:38] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:40] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:42] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:44] SENSOR  pH = 4.315  (I2C 0x63 bus 1)
+[17:07:45] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:47] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:49] CTRL    sensor error: EZO-pH 0x63 returned no data
+[17:07:51] SENSOR  pH = 4.321  (I2C 0x63 bus 1)127.0.0.1 - - [19/May/2026 17:07:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:52] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:54] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:57] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:07:59] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:07:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:01] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:03] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:05] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:05] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:08] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:10] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:12] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:13] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:14] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:16] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:18] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:20] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:22] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:24] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:26] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:28] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:30] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:32] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:34] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:36] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:42] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:44] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:46] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:49] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:51] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:53] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:55] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:08:57] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:57] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:08:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:01] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:02] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:04] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:06] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:08] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:10] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:12] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:13] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:14] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:16] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:18] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:21] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:23] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:27] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:29] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:29] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:32] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:34] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:36] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:42] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:44] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:46] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:48] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:50] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:53] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:53] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:55] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:55] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:57] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:57] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:09:59] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:09:59] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:01] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:01] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:03] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:03] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:05] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:05] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:07] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:07] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:09] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:09] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:11] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:11] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:13] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:13] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:15] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:15] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:17] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:17] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:19] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:20] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:21] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:22] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:23] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:24] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:25] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:26] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:27] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:28] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:29] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:30] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:31] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:32] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:33] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:34] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:35] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:36] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:37] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:38] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:39] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:40] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:41] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:42] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:43] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:44] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:45] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:46] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:47] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:48] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:49] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:50] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [19/May/2026 17:10:51] "GET /api/status HTTP/1.1" 200 -
+10.0.0.99 - - [19/May/2026 17:10:52] "GET /api/status HTTP/1.1" 200 -

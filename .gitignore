@@ -1,8 +1,26 @@
+﻿# Python
 __pycache__/
 *.pyc
 *.pyo
-ph_controller.log
-ph_dosing.log
+*.pyd
+.Python
+
+# Logs
+*.log
+ph_controller/latest.log
+
+# Sessions (data files — not source)
+ph_controller/sessions/
+
+# Config with local overrides (keep config.json tracked as defaults)
 .env
 
-ph_controller/sessions/
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
