@@ -5,6 +5,18 @@ Includes a full web dashboard, manual pump control, calibration wizards, and ses
 
 ---
 
+## Screenshots
+
+**Dashboard** — live pH readout, real-time chart, pump status, and session controls.
+
+![Dashboard](docs/dashboard.png)
+
+**Configuration** — I2C address settings, dosing parameters, and pH probe calibration.
+
+![Configuration](docs/config.png)
+
+---
+
 ## Video Guide
 
 > **TODO:** Add video link here once published.

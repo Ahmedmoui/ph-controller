@@ -7,7 +7,7 @@ __pycache__/
 
 # Logs
 *.log
-ph_controller/latest.log
+latest.log
 
 # Sessions (data files — not source)
 ph_controller/sessions/
