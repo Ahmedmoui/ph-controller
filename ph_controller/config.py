@@ -11,7 +11,8 @@ DEFAULTS = {
     "pump2_addr": 114,   # EZO-PMP base pump    (0x72)
     "i2c_bus":    1,
     "deadband":   0.1,
-    "dose_ml":    0.5,
+    "dose_ml":    5.0,
+    "dose_p_gain": 5.0,
     "poll_sec":   2.0,
     "simulate_ph": False,
 }

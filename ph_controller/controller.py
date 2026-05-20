@@ -5,8 +5,11 @@ The reader thread starts immediately on import and runs forever, so the
 current pH is always shown on the dashboard -- even when the controller
 is stopped and no dosing is happening.
 
-Each session writes a CSV file to ph_controller/sessions/ and flushes
-after every row, so a power loss loses at most one poll interval of data.
+Each session writes a CSV file to ph_controller/sessions/. Readings are
+buffered in memory and flushed to disk in batches (BATCH_SIZE rows), with
+os.fsync() after each flush to force the kernel to commit to the SD card.
+The buffer is also flushed on pause and stop, so a clean shutdown loses
+no data. Worst-case power-loss window = BATCH_SIZE * poll_sec seconds.
 
 Status transitions:
   stopped  --start()--> running   (new session CSV opened; thread already running)
@@ -32,11 +35,31 @@ import sensors
 from config import load as load_config
 
 MAX_HISTORY  = 200
+BATCH_SIZE   = 10    # rows buffered before flushing to disk
+PUMP_MIN_ML  = 0.5   # EZO-PMP hardware minimum dispense volume (datasheet V3.0)
 SESSIONS_DIR = os.path.join(os.path.dirname(__file__), "sessions")
 
 
 def _ts() -> str:
     return datetime.datetime.now().strftime("%H:%M:%S")
+
+
+def _proportional_dose(error: float, deadband: float, p_gain: float, max_dose: float) -> float:
+    """Return P-controller dose volume in mL.
+
+    error    -- |pH - target|, always > deadband when this is called
+    deadband -- no-dose zone half-width (pH units)
+    p_gain   -- mL per pH unit of excess error; 0 disables P-control (always max_dose)
+    max_dose -- upper cap (dose_ml config setting)
+
+    Result is clamped to [PUMP_MIN_ML, max_dose] so the hardware minimum is
+    always respected and the configured maximum is never exceeded.
+    """
+    if p_gain <= 0:
+        return max_dose                           # P-control disabled: always full dose
+    effective_error = error - deadband            # excess error beyond the deadband edge
+    vol = p_gain * effective_error
+    return max(PUMP_MIN_ML, min(max_dose, vol))
 
 
 class Controller:
@@ -54,6 +77,7 @@ class Controller:
         self._csv_file      = None   # open file handle for the current session
         self._csv_writer    = None
         self._session_start = 0.0
+        self._write_buffer  = []     # pending rows awaiting batch flush
 
         # Thread starts immediately so pH is always read, even when stopped.
         self._thread = threading.Thread(target=self._loop, daemon=True, name="ctrl-loop")
@@ -83,6 +107,7 @@ class Controller:
                 return
             self.status = "paused"
             self._stop_pumps()
+            self._flush_buffer()   # checkpoint: commit buffered data before pausing
             print(f"[{_ts()}] CTRL    status -> paused")
 
     def stop(self):
@@ -134,6 +159,7 @@ class Controller:
 
     def _open_session_csv(self, name: str = None):
         """Open a new timestamped CSV file. Call with self.lock held."""
+        self._write_buffer = []   # discard any stale buffer from a prior session
         try:
             os.makedirs(SESSIONS_DIR, exist_ok=True)
             ts_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -155,15 +181,37 @@ class Controller:
             self._csv_writer = None
 
     def _close_session_csv(self):
-        """Flush and close the CSV. Call with self.lock held."""
+        """Flush write buffer then close the CSV. Call with self.lock held."""
+        self._flush_buffer()   # commit any remaining buffered rows
         if self._csv_file:
             try:
                 self._csv_file.flush()
+                os.fsync(self._csv_file.fileno())
                 self._csv_file.close()
             except Exception:
                 pass
             self._csv_file   = None
             self._csv_writer = None
+
+    def _flush_buffer(self):
+        """Write all buffered rows to disk and fsync. Call with self.lock held.
+        On failure the buffer is kept intact so the next flush can retry."""
+        if not self._write_buffer:
+            return
+        if not self._csv_writer:
+            self._write_buffer = []   # no writer open; discard stale buffer
+            return
+        n = len(self._write_buffer)
+        try:
+            for row in self._write_buffer:
+                self._csv_writer.writerow(row)
+            self._csv_file.flush()
+            os.fsync(self._csv_file.fileno())
+            self._write_buffer = []
+            print(f"[{_ts()}] CTRL    flushed {n} rows to disk")
+        except Exception as exc:
+            print(f"[{_ts()}] CTRL    CSV flush error ({n} rows pending): {exc}")
+            # Buffer intentionally kept -- will retry on next trigger
 
     def _stop_pumps(self):
         """Must be called with self.lock held."""
@@ -187,6 +235,7 @@ class Controller:
                 target   = self.target_ph
                 deadband = self.cfg["deadband"]
                 dose_ml  = self.cfg["dose_ml"]
+                p_gain   = self.cfg.get("dose_p_gain", 2.0)
                 poll_sec = self.cfg["poll_sec"]
                 ph_addr  = self.cfg["ph_addr"]
                 p1_addr  = self.cfg["pump1_addr"]
@@ -211,20 +260,23 @@ class Controller:
                 target   = self.target_ph
                 deadband = self.cfg["deadband"]
                 dose_ml  = self.cfg["dose_ml"]
+                p_gain   = self.cfg.get("dose_p_gain", 2.0)
 
                 if status == "running":
                     if ph < target - deadband:
                         try:
-                            pump.dose(p2_addr, dose_ml, bus)
-                            self.pump2_dosed += dose_ml
+                            vol = _proportional_dose(abs(ph - target), deadband, p_gain, dose_ml)
+                            pump.dose(p2_addr, vol, bus)
+                            self.pump2_dosed += vol
                             self.pump2_state = "dosing"
                             self.pump1_state = "idle"
                         except Exception as exc:
                             print(f"[{_ts()}] CTRL    pump 2 error: {exc}")
                     elif ph > target + deadband:
                         try:
-                            pump.dose(p1_addr, dose_ml, bus)
-                            self.pump1_dosed += dose_ml
+                            vol = _proportional_dose(abs(ph - target), deadband, p_gain, dose_ml)
+                            pump.dose(p1_addr, vol, bus)
+                            self.pump1_dosed += vol
                             self.pump1_state = "dosing"
                             self.pump2_state = "idle"
                         except Exception as exc:
@@ -246,18 +298,19 @@ class Controller:
                     }
                     self.history.append(entry)
 
-                    # Write to disk and flush immediately -- power loss loses at most one reading
+                    # Buffer the row; flush to disk once BATCH_SIZE rows accumulate
                     if self._csv_writer:
                         try:
                             t_min = round((now - self._session_start) / 60.0, 3)
-                            self._csv_writer.writerow([
+                            self._write_buffer.append([
                                 entry["time"], t_min,
                                 entry["ph"], entry["target_ph"],
                                 entry["pump1_ml"], entry["pump2_ml"],
                             ])
-                            self._csv_file.flush()
+                            if len(self._write_buffer) >= BATCH_SIZE:
+                                self._flush_buffer()
                         except Exception as exc:
-                            print(f"[{_ts()}] CTRL    CSV write error: {exc}")
+                            print(f"[{_ts()}] CTRL    CSV buffer error: {exc}")
 
             time.sleep(poll_sec)
 

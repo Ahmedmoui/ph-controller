@@ -353,9 +353,13 @@ function saveData() {
     alert("No session data to save.\nStart the controller to begin recording.");
     return;
   }
-  const ts = new Date().toISOString().slice(0, 19).replace("T", "_").replace(/:/g, "-");
   const input = document.getElementById("save-filename");
-  input.value = `ph_session_${ts}`;
+  if (state.session_file) {
+    input.value = state.session_file.replace(/\.csv$/, "");
+  } else {
+    const ts = new Date().toISOString().slice(0, 19).replace("T", "_").replace(/:/g, "-");
+    input.value = `ph_session_${ts}`;
+  }
   document.getElementById("save-model").classList.add("show");
   setTimeout(function() { input.select(); showKb(input); }, 80);
 }

@@ -90,7 +90,16 @@
     <div class="card" style="margin-top:16px;">
       <h2>Dosing Parameters</h2>
       <div class="field"><label>Deadband (pH &plusmn;)</label><input type="number" id="deadband" step="0.05" min="0.01" max="2.0"></div>
-      <div class="field"><label>Dose per Cycle (mL)</label><input type="number" id="dose_ml"  step="0.1"  min="0.5"  max="50"></div>
+      <div class="field"><label>Max Dose per Cycle (mL)</label><input type="number" id="dose_ml"     step="0.1"  min="0.5"  max="50"></div>
+      <div class="field">
+        <label>Dose Aggressiveness (P)</label>
+        <input type="number" id="dose_p_gain" step="0.1" min="0" max="100">
+        <div style="font-size:0.72rem;color:#adbac7;margin-top:5px;line-height:1.5">
+          Higher &rarr; large doses even for small errors (fast but risks overshoot).<br>
+          Lower &rarr; dose ramps up slowly, gentle correction.<br>
+          0 &rarr; always doses the full max volume regardless of error.
+        </div>
+      </div>
       <div class="field"><label>Poll Interval (seconds)</label><input type="number" id="poll_sec" step="1"    min="1"    max="300"></div>
     </div>
 
@@ -160,7 +169,7 @@ async function loadConfig() {
   try {
     const r = await fetch("/api/config");
     const d = await r.json();
-    ["ph_addr","pump1_addr","pump2_addr","i2c_bus","deadband","dose_ml","poll_sec"]
+    ["ph_addr","pump1_addr","pump2_addr","i2c_bus","deadband","dose_ml","dose_p_gain","poll_sec"]
       .forEach(k => { const el = document.getElementById(k); if (el) el.value = d[k]; });
     const simEl = document.getElementById("simulate_ph");
     if (simEl) simEl.checked = !!d.simulate_ph;
@@ -168,7 +177,7 @@ async function loadConfig() {
 }
 
 async function saveConfig() {
-  const keys  = ["ph_addr","pump1_addr","pump2_addr","i2c_bus","deadband","dose_ml","poll_sec"];
+  const keys  = ["ph_addr","pump1_addr","pump2_addr","i2c_bus","deadband","dose_ml","dose_p_gain","poll_sec"];
   const intKs = new Set(["ph_addr","pump1_addr","pump2_addr","i2c_bus"]);
   const data  = {};
   for (const k of keys) {

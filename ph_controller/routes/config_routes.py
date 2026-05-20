@@ -30,7 +30,7 @@ def api_config_post():
                 if k != "i2c_bus" and not (1 <= v <= 127):
                     return jsonify({"error": f"{k} must be 1-127"}), 400
                 cfg[k] = v
-        for k in ("deadband", "dose_ml", "poll_sec"):
+        for k in ("deadband", "dose_ml", "dose_p_gain", "poll_sec"):
             if k in data:
                 cfg[k] = float(data[k])
         if "simulate_ph" in data:
