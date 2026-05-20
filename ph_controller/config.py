@@ -13,6 +13,7 @@ DEFAULTS = {
     "deadband":   0.1,
     "dose_ml":    0.5,
     "poll_sec":   2.0,
+    "simulate_ph": False,
 }
 
 

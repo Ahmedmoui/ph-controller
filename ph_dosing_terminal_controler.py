@@ -10,7 +10,7 @@ import logging
 import sys
 import time
 
-from ezo_i2c import EZOPH, EZOPump
+from ph_controller.hardware.ezo_i2c import EZOPH, EZOPump
 
 # -- I2C addresses -- change to match your wiring
 PH_SENSOR_ADDR  = 99   # EZO-pH  default: 99  (0x63)

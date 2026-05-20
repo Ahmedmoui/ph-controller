@@ -6,11 +6,11 @@
   <title>pH Controller</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/static/css/theme.css">
+  <link rel="stylesheet" href="/static/css/theme.css?v=3">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { overflow: hidden; width: 100%; height: 100%; }
-    body { font-family: "Courier New", monospace; background: #0d1117; color: #c9d1d9; }
+    body { font-family: "Courier New", monospace; background: var(--bg-page); color: var(--text-bright); }
     #chart-bg canvas { display: block; }
 
     /* ── Full-viewport chart ── */
@@ -20,8 +20,8 @@
     /* ── Floating control panel ── */
     .left {
       position: fixed; top: 0; left: 0; bottom: 0; width: 280px; z-index: 10;
-      background: rgba(22, 27, 34, 0.93); backdrop-filter: blur(10px);
-      border-right: 1px solid #30363d;
+      background: var(--bg-panel-blur); backdrop-filter: blur(10px);
+      border-right: 1px solid var(--border);
       padding: 20px 18px; display: flex; flex-direction: column; gap: 18px;
       transition: transform 0.22s ease;
     }
@@ -31,83 +31,102 @@
     .bottom-bar {
       position: fixed; bottom: 0; right: 0; z-index: 20;
       padding: 36px 14px 12px;
-      background: linear-gradient(to bottom, transparent, rgba(13,17,23,0.92) 55%);
+      background: linear-gradient(to bottom, transparent, var(--bg-page-fade) 55%);
       display: flex; gap: 8px; align-items: flex-end;
       pointer-events: none;
     }
     .action-btn {
       pointer-events: all;
-      background: rgba(22,27,34,0.92); border: 1px solid #30363d; color: #8b949e;
+      background: var(--bg-panel-blur); border: 1px solid var(--border); color: var(--text-muted);
       padding: 7px 13px; border-radius: 4px; cursor: pointer;
       font-family: "Courier New", monospace; font-size: 0.85rem;
       transition: background 0.1s, color 0.1s, border-color 0.1s;
       display: inline-flex; align-items: center; gap: 6px;
     }
-    .action-btn:hover { background: #238636; border-color: #238636; color: #fff; }
-    .action-btn.folder:hover { background: #1f6feb; border-color: #1f6feb; color: #fff; }
-    .action-btn:active { transform: scale(0.96); }
+    .action-btn:hover        { background: var(--btn-run);    border-color: var(--btn-run);    color: #fff; }
+    .action-btn.folder:hover { background: var(--blue-action); border-color: var(--blue-action); color: #fff; }
+    .action-btn:active       { transform: scale(0.96); }
 
     /* ── Left panel internals ── */
-    .rule { border: none; border-top: 1px solid #21262d; }
+    .rule    { border: none; border-top: 1px solid var(--border-faint); }
     .top-row { display: flex; align-items: flex-start; justify-content: space-between; }
-    .ph-block .lbl { font-size: 0.95rem; color: #8b949e; text-transform: uppercase; letter-spacing: 2px; }
-    .ph-block .big { font-size: 4.8rem; font-weight: 700; color: #58a6ff; line-height: 1; letter-spacing: -2px; }
-    .cfg-link { color: #8b949e; font-size: 1.2rem; text-decoration: none; padding: 5px 7px; line-height: 1; border: 1px solid #30363d; border-radius: 4px; background: #21262d; transition: color 0.1s, border-color 0.1s, background 0.1s; }
-    .cfg-link:hover { color: #c9d1d9; border-color: #8b949e; background: #30363d; }
-    .sec-lbl { font-size: 0.95rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-    .target-row { display: flex; align-items: center; gap: 10px; }
-    .target-val { font-size: 2.2rem; color: #e6edf3; min-width: 56px; }
-    .spin-col { display: flex; flex-direction: column; gap: 4px; }
-    .spin-btn { width: 36px; height: 30px; background: #21262d; border: 1px solid #30363d; color: #c9d1d9; border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: background 0.1s, border-color 0.1s, box-shadow 0.1s; }
-    .spin-btn:hover { background: #30363d; border-color: var(--blue, #58a6ff); box-shadow: 0 0 6px var(--blue, #58a6ff)44; }
-    .pump-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
-    .pump-name { font-size: 0.95rem; color: #8b949e; }
-    .pump-badge { font-size: 0.95rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; text-transform: capitalize; }
-    .pump-badge.idle   { background: #21262d; color: #8b949e; }
-    .pump-badge.dosing { background: #1a3d2b; color: #56d364; }
-    .bottom { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
-    .status-row { display: flex; align-items: center; gap: 8px; }
-    .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
-    .dot.running { background: #56d364; box-shadow: 0 0 6px #56d364aa; }
-    .dot.paused  { background: #e3b341; box-shadow: 0 0 6px #e3b341aa; }
-    .dot.stopped { background: #f85149; box-shadow: 0 0 6px #f85149aa; }
-    .status-lbl { font-size: 1rem; font-weight: 700; }
-    .status-lbl.running { color: #56d364; }
-    .status-lbl.paused  { color: #e3b341; }
-    .status-lbl.stopped { color: #f85149; }
-    .ctrl-btns { display: flex; gap: 10px; }
-    .ctrl-btn { width: 48px; height: 48px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; font-size: 1.15rem; transition: filter 0.1s, transform 0.08s, box-shadow 0.1s; }
-    .ctrl-btn:hover  { filter: brightness(1.3); }
-    .ctrl-btn:active { transform: scale(0.93); }
-    #btn-pp   { background: var(--btn-run,  #238636); color: #fff; border-color: var(--btn-run, #238636); box-shadow: 0 0 0 2px var(--btn-run, #238636), 0 0 16px var(--btn-run-glow, #23863688); }
-    #btn-stop { background: var(--btn-stop, #da3633); color: #fff; border-color: var(--btn-stop, #da3633); box-shadow: 0 0 0 2px var(--btn-stop, #da3633), 0 0 16px var(--btn-stop-glow, #da363388); }
 
-    /* ── Save model ── */
-    .model-overlay {
-      display: none; position: fixed; inset: 0; z-index: 500;
-      background: rgba(0,0,0,0.65); align-items: center; justify-content: center;
+    .ph-block .lbl { font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
+    .ph-block .big { font-size: 4.8rem; font-weight: 700; color: var(--chart-ph); line-height: 1; letter-spacing: -2px; }
+
+    .cfg-link { color: var(--text-muted); font-size: 1.2rem; text-decoration: none; padding: 5px 7px; line-height: 1; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-element); transition: color 0.1s, border-color 0.1s, background 0.1s; }
+    .cfg-link:hover { color: var(--text-bright); border-color: var(--text-dim); background: var(--bg-hover); }
+
+    .sec-lbl   { font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .target-row { display: flex; align-items: center; gap: 10px; }
+    .target-val { font-size: 2.2rem; color: var(--chart-target); min-width: 56px; }
+
+    .spin-col { display: flex; flex-direction: column; gap: 4px; }
+    .spin-btn { width: 36px; height: 30px; background: var(--bg-element); border: 1px solid var(--border); color: var(--text-body); border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: background 0.1s, border-color 0.1s, box-shadow 0.1s; }
+    .spin-btn:hover { background: var(--bg-hover); border-color: var(--blue); box-shadow: 0 0 6px var(--blue-glow); }
+
+    .pump-row  { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
+    .pump-name { font-size: 0.95rem; color: var(--text-muted); }
+    .pump-badge        { font-size: 0.95rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; text-transform: capitalize; }
+    .pump-badge.idle   { background: var(--bg-element); color: var(--text-dim); }
+    .pump-badge.dosing { background: var(--bg-dosing);  color: var(--color-running); }
+
+    /* ── Pumps sub-link ── */
+    .pumps-link { color: var(--text-muted); font-size: 0.75rem; text-decoration: none; border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; background: var(--bg-element); transition: color 0.1s, background 0.1s, border-color 0.1s; }
+    .pumps-link:hover  { color: var(--text-bright); background: var(--bg-hover); border-color: var(--text-dim); }
+
+    /* ── Status + control zone ── */
+    .ctrl-zone {
+      margin-top: auto;
+      border-radius: 10px;
+      padding: 16px 12px 14px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      transition: background 0.35s ease, box-shadow 0.35s ease;
     }
+    .ctrl-zone.running { background: var(--color-running-bg,  #162e1c); border: 1px solid var(--color-running-ring, #2a5c35); }
+    .ctrl-zone.paused  { background: var(--color-paused-bg,   #2b2008); border: 1px solid var(--color-paused-ring,  #5c4510); }
+    .ctrl-zone.stopped { background: transparent;                        border: 1px solid var(--border-faint,        #21262d); }
+
+    .status-lbl         { font-size: 1.6rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; line-height: 1; }
+    .status-lbl.running { color: var(--color-running,  #56d364); }
+    .status-lbl.paused  { color: var(--color-paused,   #e3b341); }
+    .status-lbl.stopped { color: var(--text-disabled,  #484f58); }
+
+    .ctrl-btns { display: flex; gap: 18px; }
+    .ctrl-btn  { width: 64px; height: 64px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; font-size: 1.5rem; transition: filter 0.1s, transform 0.08s, box-shadow 0.1s; }
+    .ctrl-btn:hover  { filter: brightness(1.25); }
+    .ctrl-btn:active { transform: scale(0.93); }
+    #btn-pp   { background: var(--btn-run,  #238636); color: #fff; border-color: var(--btn-run,  #238636); box-shadow: 0 0 0 2px var(--btn-run,  #238636), 0 0 20px var(--btn-run-glow,  rgba(35,134,54,0.53)); }
+    #btn-stop { background: var(--btn-stop, #da3633); color: #fff; border-color: var(--btn-stop, #da3633); box-shadow: 0 0 0 2px var(--btn-stop, #da3633), 0 0 20px var(--btn-stop-glow, rgba(218,54,51,0.53)); }
+    #btn-stop:disabled { background: var(--bg-element, #21262d); border-color: var(--border, #30363d); color: var(--text-disabled, #484f58); box-shadow: none; cursor: not-allowed; filter: none; }
+
+    /* ── Modal overlay ── */
+    .model-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: var(--bg-overlay); align-items: center; justify-content: center; }
     .model-overlay.show { display: flex; }
-    .model-card {
-      background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-      padding: 24px; min-width: 340px; display: flex; flex-direction: column; gap: 14px;
-    }
-    .model-title { font-size: 1.1rem; font-weight: 700; color: #e6edf3; }
-    .model-hint  { font-size: 0.85rem; color: #8b949e; line-height: 1.4; }
-    .model-input {
-      width: 100%; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9;
-      padding: 8px 10px; border-radius: 4px; font-family: "Courier New", monospace; font-size: 1rem;
-    }
-    .model-input:focus { outline: none; border-color: #58a6ff; }
-    .model-btns { display: flex; gap: 8px; justify-content: flex-end; }
-    .model-btn {
-      padding: 7px 18px; border: none; border-radius: 4px; cursor: pointer;
-      font-family: "Courier New", monospace; font-size: 0.95rem; font-weight: 700;
-    }
-    .model-btn.primary   { background: #238636; color: #fff; }
-    .model-btn.primary:hover { filter: brightness(1.15); }
-    .model-btn.secondary { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
-    .model-btn.secondary:hover { background: #30363d; }
+    .model-card   { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 24px; min-width: 340px; display: flex; flex-direction: column; gap: 14px; }
+    .model-title  { font-size: 1.1rem; font-weight: 700; color: var(--text-bright); }
+    .model-hint   { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+    .model-input  { width: 100%; background: var(--bg-page); border: 1px solid var(--border); color: var(--text-body); padding: 8px 10px; border-radius: 4px; font-family: "Courier New", monospace; font-size: 1rem; }
+    .model-input:focus { outline: none; border-color: var(--blue); }
+    .model-btns   { display: flex; gap: 8px; justify-content: flex-end; }
+    .model-btn    { padding: 7px 18px; border: none; border-radius: 4px; cursor: pointer; font-family: "Courier New", monospace; font-size: 0.95rem; font-weight: 700; }
+    .model-btn.primary        { background: var(--btn-run); color: #fff; }
+    .model-btn.primary:hover  { filter: brightness(1.15); }
+    .model-btn.secondary      { background: var(--bg-element); border: 1px solid var(--border); color: var(--text-bright); }
+    .model-btn.secondary:hover{ background: var(--bg-hover); }
+
+    /* ── Session browser rows ── */
+    .session-row     { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: var(--bg-page); border: 1px solid var(--border-faint); border-radius: 4px; gap: 10px; }
+    .session-info    { flex: 1; min-width: 0; }
+    .session-name    { font-size: 0.78rem; color: var(--text-bright); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .session-meta    { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+    .session-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .session-dl-btn  { padding: 5px 12px; background: var(--bg-element); border: 1px solid var(--border); color: var(--text-muted); border-radius: 4px; font-family: "Courier New", monospace; font-size: 0.72rem; text-decoration: none; white-space: nowrap; transition: background 0.1s, border-color 0.1s, color 0.1s; }
+    .session-dl-btn:hover  { background: var(--blue-action); border-color: var(--blue-action); color: #fff; }
+    .session-del-btn { padding: 5px 10px; background: var(--bg-element); border: 1px solid var(--border); color: var(--text-muted); border-radius: 4px; font-family: "Courier New", monospace; font-size: 0.72rem; cursor: pointer; white-space: nowrap; transition: background 0.1s, border-color 0.1s, color 0.1s; }
+    .session-del-btn:hover { background: var(--btn-stop); border-color: var(--btn-stop); color: #fff; }
+    .session-status { font-size: 0.8rem; color: var(--text-muted); }
+    .session-error  { font-size: 0.8rem; color: var(--color-stopped); }
   </style>
 </head>
 <body>
@@ -146,7 +165,7 @@
   <div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
         <span class="sec-lbl" style="margin-bottom:0">Pumps</span>
-        <a href="/pumps" title="Pump Control" style="color:#8b949e;font-size:0.75rem;text-decoration:none;border:1px solid #30363d;padding:2px 8px;border-radius:4px;background:#21262d;" onmouseover="this.style.color='#c9d1d9'" onmouseout="this.style.color='#8b949e'">&#9881; Control</a>
+        <a href="/pumps" title="Pump Control" class="pumps-link">&#9881; Control</a>
       </div>
     <div class="pump-row">
       <span class="pump-name">Pump 1 &mdash; acid</span>
@@ -158,13 +177,8 @@
     </div>
   </div>
 
-  <hr class="rule">
-
-  <div class="bottom">
-    <div class="status-row">
-      <div class="dot stopped" id="status-dot"></div>
-      <span class="status-lbl stopped" id="status-lbl">Stopped</span>
-    </div>
+  <div class="ctrl-zone stopped" id="ctrl-zone">
+    <span class="status-lbl stopped" id="status-lbl">Stopped</span>
     <div class="ctrl-btns">
       <button class="ctrl-btn" id="btn-pp"   onclick="togglePlay()" title="Start / Pause">&#9654;</button>
       <button class="ctrl-btn" id="btn-stop" onclick="doStop()"     title="Stop">&#9632;</button>
@@ -191,16 +205,18 @@ function initChart() {
   const cv  = n => cs.getPropertyValue(n).trim();
   const gc  = cv("--chart-grid") || "#21262d";
   const tc  = cv("--text-muted") || "#8b949e";
-  const cPH   = cv("--chart-ph")   || "#58a6ff";
-  const cAcid = cv("--chart-acid") || "#f85149";
-  const cBase = cv("--chart-base") || "#56d364";
+  const cPH     = cv("--chart-ph")     || "#58a6ff";
+  const cTarget = cv("--chart-target") || "#e3b341";
+  const cAcid   = cv("--chart-acid")   || "#f85149";
+  const cBase   = cv("--chart-base")   || "#56d364";
   chart = new Chart(ctx, {
     type: "line",
     data: {
       datasets: [
-        { label: "pH",                 data: [], borderColor: cPH,   backgroundColor: cPH + "12",  yAxisID: "yPH", tension: 0.35, pointRadius: 2, fill: true,  borderWidth: 2 },
-        { label: "Pump 1 – acid (mL)", data: [], borderColor: cAcid, borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
-        { label: "Pump 2 – base (mL)", data: [], borderColor: cBase, borderDash: [5,3], yAxisID: "yML", tension: 0.1, pointRadius: 0, borderWidth: 2 },
+        { label: "pH",        data: [], borderColor: cPH,     backgroundColor: cPH + "12", yAxisID: "yPH", tension: 0.35, pointRadius: 2, fill: true,  borderWidth: 2 },
+        { label: "Target pH", data: [], borderColor: cTarget,                               yAxisID: "yPH", tension: 0.1,  pointRadius: 0, fill: false, borderWidth: 2, borderDash: [6,4] },
+        { label: "Acid (mL)", data: [], borderColor: cAcid,                                 yAxisID: "yML", tension: 0.1,  pointRadius: 0, borderWidth: 2, borderDash: [5,3] },
+        { label: "Base (mL)", data: [], borderColor: cBase,                                 yAxisID: "yML", tension: 0.1,  pointRadius: 0, borderWidth: 2, borderDash: [5,3] },
       ],
     },
     options: {
@@ -210,7 +226,7 @@ function initChart() {
       scales: {
         x:   { type: "linear", title: { display: true, text: "Time (min)", color: tc, font: { size: 11 } }, ticks: { color: tc }, grid: { color: gc } },
         yPH: { type: "linear", position: "left",  min: 0, max: 14, title: { display: true, text: "pH",          color: cPH,       font: { size: 11 } }, ticks: { color: tc }, grid: { color: gc } },
-        yML: { type: "linear", position: "right", min: 0,          title: { display: true, text: "Volume (mL)", color: tc,        font: { size: 11 } }, ticks: { color: tc }, grid: { drawOnChartArea: false } },
+        yML: { type: "linear", position: "right", min: 0, title: { display: true, text: "Volume (mL)", color: tc, font: { size: 11 } }, ticks: { color: tc }, grid: { drawOnChartArea: false } },
       },
     },
   });
@@ -224,20 +240,24 @@ function updateUI(d) {
   setBadge("p1-badge", d.pump1_state);
   setBadge("p2-badge", d.pump2_state);
 
-  const dot = document.getElementById("status-dot");
-  const lbl = document.getElementById("status-lbl");
-  dot.className = "dot " + d.status;
-  lbl.className = "status-lbl " + d.status;
-  lbl.textContent = d.status.charAt(0).toUpperCase() + d.status.slice(1);
+  const zone = document.getElementById("ctrl-zone");
+  const lbl  = document.getElementById("status-lbl");
+  zone.className = "ctrl-zone " + d.status;
+  lbl.className  = "status-lbl " + d.status;
+  lbl.textContent = d.status === "running" ? "Dosing" : d.status.charAt(0).toUpperCase() + d.status.slice(1);
 
   const pp = document.getElementById("btn-pp");
   pp.innerHTML = d.status === "running" ? "&#9646;&#9646;" : "&#9654;";
   pp.title     = d.status === "running" ? "Pause" : "Start";
+  document.getElementById("btn-stop").disabled = d.status === "stopped";
 
   if (d.history && d.history.length) {
+    const maxVol = d.history.reduce((m, e) => Math.max(m, e.pump1_ml, e.pump2_ml), 0);
+    if (maxVol > 0) chart.options.scales.yML.max = Math.ceil(maxVol * 1.1);
     chart.data.datasets[0].data = d.history.map(e => ({ x: e.t_min, y: e.ph }));
-    chart.data.datasets[1].data = d.history.map(e => ({ x: e.t_min, y: e.pump1_ml }));
-    chart.data.datasets[2].data = d.history.map(e => ({ x: e.t_min, y: e.pump2_ml }));
+    chart.data.datasets[1].data = d.history.map(e => ({ x: e.t_min, y: e.target_ph }));
+    chart.data.datasets[2].data = d.history.map(e => ({ x: e.t_min, y: e.pump1_ml }));
+    chart.data.datasets[3].data = d.history.map(e => ({ x: e.t_min, y: e.pump2_ml }));
     chart.update("none");
   }
 }
@@ -332,9 +352,9 @@ async function confirmSave() {
   const raw  = document.getElementById("save-filename").value.trim() || "ph_session";
   const name = raw.endsWith(".csv") ? raw : raw + ".csv";
 
-  const lines = ["time,elapsed_min,ph,pump1_acid_ml,pump2_base_ml"];
+  const lines = ["time,elapsed_min,ph,target_ph,pump1_acid_ml,pump2_base_ml"];
   for (const e of hist) {
-    lines.push(`${e.time},${e.t_min},${e.ph},${e.pump1_ml},${e.pump2_ml}`);
+    lines.push(`${e.time},${e.t_min},${e.ph},${e.target_ph},${e.pump1_ml},${e.pump2_ml}`);
   }
   const csv = lines.join("\n");
   closeSaveModal();
@@ -406,38 +426,49 @@ async function startSession(useName) {
 }
 
 // ── Sessions browser ─────────────────────────────────────────────
+async function deleteSession(name) {
+  if (!confirm(`Delete "${name}"?`)) return;
+  try {
+    const r = await fetch(`/api/sessions/${encodeURIComponent(name)}`, { method: "DELETE" });
+    if (!r.ok) throw new Error(r.status);
+    const row = document.getElementById("row-" + encodeURIComponent(name));
+    if (row) row.remove();
+  } catch(e) { alert("Failed to delete session."); }
+}
+
 function closeSessions() {
   document.getElementById("sessions-model").classList.remove("show");
 }
 
 async function openSessions() {
   const list = document.getElementById("sessions-list");
-  list.innerHTML = '<div style="color:#8b949e;font-size:0.8rem">Loading…</div>';
+  list.innerHTML = '<div class="session-status">Loading…</div>';
   document.getElementById("sessions-model").classList.add("show");
   try {
     const r = await fetch("/api/sessions");
     const files = await r.json();
     if (!files.length) {
-      list.innerHTML = '<div style="color:#8b949e;font-size:0.8rem">No sessions found.</div>';
+      list.innerHTML = '<div class="session-status">No sessions found.</div>';
       return;
     }
     list.innerHTML = files.map(f => {
       const date = new Date(f.modified * 1000).toLocaleString();
-      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#0d1117;border:1px solid #21262d;border-radius:4px;gap:10px;">
-        <div>
-          <div style="font-size:0.78rem;color:#c9d1d9">${f.name}</div>
-          <div style="font-size:0.68rem;color:#8b949e">${date} &nbsp;&middot;&nbsp; ${f.size_kb} KB</div>
+      const enc  = encodeURIComponent(f.name);
+      return `<div id="row-${enc}" class="session-row">
+        <div class="session-info">
+          <div class="session-name">${f.name}</div>
+          <div class="session-meta">${date} &nbsp;&middot;&nbsp; ${f.size_kb} KB</div>
         </div>
-        <a href="/api/sessions/${encodeURIComponent(f.name)}" download="${f.name}"
-           style="padding:5px 12px;background:#21262d;border:1px solid #30363d;color:#8b949e;border-radius:4px;font-family:'Courier New',monospace;font-size:0.72rem;text-decoration:none;white-space:nowrap;"
-           onmouseover="this.style.background='#1f6feb';this.style.borderColor='#1f6feb';this.style.color='#fff'"
-           onmouseout="this.style.background='#21262d';this.style.borderColor='#30363d';this.style.color='#8b949e'">
-          <i class="fa fa-download"></i> Download
-        </a>
+        <div class="session-actions">
+          <a href="/api/sessions/${enc}" download="${f.name}" class="session-dl-btn">
+            <i class="fa fa-download"></i> Download
+          </a>
+          <button onclick="deleteSession('${f.name}')" class="session-del-btn">&times;</button>
+        </div>
       </div>`;
     }).join("");
   } catch(e) {
-    list.innerHTML = '<div style="color:#f85149;font-size:0.8rem">Failed to load sessions.</div>';
+    list.innerHTML = '<div class="session-error">Failed to load sessions.</div>';
   }
 }
 
@@ -484,8 +515,8 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="model-hint">Give this session a label to help identify the data later. Leave it or change it — the timestamp is always appended to the filename.</div>
     <input class="model-input" id="session-name-input" type="text" placeholder="e.g. Tank_A_Day3"
            onkeydown="if(event.key==='Enter') startSession(true); if(event.key==='Escape') closeNameSession()">
-    <div class="model-btns">
-      <button class="model-btn secondary" onclick="startSession(false)">Skip</button>
+    <div class="model-btns" style="justify-content:space-between">
+      <button class="model-btn secondary" onclick="closeNameSession()">Cancel</button>
       <button class="model-btn primary"   onclick="startSession(true)">&#9654; Start Session</button>
     </div>
   </div>
@@ -520,3 +551,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+

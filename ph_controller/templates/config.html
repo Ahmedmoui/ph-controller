@@ -51,6 +51,17 @@
 
     .warning { background: #2d1b00; border: 1px solid #9e6a03; border-radius: 4px; padding: 8px 12px; font-size: 0.75rem; color: #e3b341; margin-bottom: 16px; }
 
+    /* ── Toggle switch ── */
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; }
+    .toggle-row span { font-size: 0.85rem; color: #c9d1d9; }
+    .toggle-input { display: none; }
+    .toggle-track { position: relative; flex-shrink: 0; width: 44px; height: 24px; background: #21262d; border: 1px solid #30363d; border-radius: 12px; transition: background 0.2s, border-color 0.2s; }
+    .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: #8b949e; border-radius: 50%; transition: transform 0.2s, background 0.2s; }
+    .toggle-input:checked + .toggle-track { background: #238636; border-color: #238636; }
+    .toggle-input:checked + .toggle-track > .toggle-thumb { transform: translateX(20px); background: #fff; }
+    .field-hint { font-size: 0.72rem; color: #8b949e; margin-top: 8px; line-height: 1.5; }
+    .demo-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: #2d2008; color: #e3b341; border: 1px solid #5c4510; border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: middle; }
+
     /* ── Toast ── */
     .toast { position: fixed; bottom: 20px; right: 20px; background: #238636; color: #fff; padding: 10px 18px; border-radius: 6px; font-size: 0.85rem; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
     .toast.show { opacity: 1; }
@@ -81,6 +92,20 @@
       <div class="field"><label>Deadband (pH &plusmn;)</label><input type="number" id="deadband" step="0.05" min="0.01" max="2.0"></div>
       <div class="field"><label>Dose per Cycle (mL)</label><input type="number" id="dose_ml"  step="0.1"  min="0.5"  max="50"></div>
       <div class="field"><label>Poll Interval (seconds)</label><input type="number" id="poll_sec" step="1"    min="1"    max="300"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h2>Demo Mode <span class="demo-badge">simulation</span></h2>
+      <label class="toggle-row" for="simulate_ph">
+        <span>Simulate pH oscillation</span>
+        <input type="checkbox" id="simulate_ph" class="toggle-input">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      </label>
+      <div class="field-hint">
+        Replaces the real pH sensor with a sine wave that drifts &plusmn;0.3 pH around the
+        target, completing one cycle every 40 s (&plusmn; peak every ~20 s).<br>
+        Useful for demonstrating pump alternation without live hardware.
+      </div>
     </div>
 
     <div style="margin-top:14px;">
@@ -137,6 +162,8 @@ async function loadConfig() {
     const d = await r.json();
     ["ph_addr","pump1_addr","pump2_addr","i2c_bus","deadband","dose_ml","poll_sec"]
       .forEach(k => { const el = document.getElementById(k); if (el) el.value = d[k]; });
+    const simEl = document.getElementById("simulate_ph");
+    if (simEl) simEl.checked = !!d.simulate_ph;
   } catch(e) { console.error("loadConfig:", e); }
 }
 
@@ -148,6 +175,8 @@ async function saveConfig() {
     const v = document.getElementById(k).value;
     data[k] = intKs.has(k) ? parseInt(v, 10) : parseFloat(v);
   }
+  const simEl = document.getElementById("simulate_ph");
+  if (simEl) data.simulate_ph = simEl.checked;
   try {
     const r = await fetch("/api/config", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
     const d = await r.json();

@@ -33,6 +33,8 @@ def api_config_post():
         for k in ("deadband", "dose_ml", "poll_sec"):
             if k in data:
                 cfg[k] = float(data[k])
+        if "simulate_ph" in data:
+            cfg["simulate_ph"] = bool(data["simulate_ph"])
         cfg_mod.save(cfg)
         controller.reload_config()
         return jsonify(cfg)

@@ -188,13 +188,13 @@ info = sensors.get_calibration_info(address=99, bus=1)
 # info = {"points": int, "slope": {"acid_pct", "base_pct", "zero_mv"}}
 ```
 
-### Standalone CLI Controller — `simple_ph_dosing_test.py`
+### Standalone CLI Controller — `Simple_ph_dosing_test.py`
 
 Runs a full dosing loop from the command line with no web interface.
 Useful for headless operation or testing without the UI.
 
 ```bash
-python3 simple_ph_dosing_test.py --help
+python3 ph_dosing_terminal_controler.py --help
 ```
 
 ---

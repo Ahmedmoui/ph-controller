@@ -107,11 +107,12 @@ class Controller:
             t0 = self.history[0]["ts"] if self.history else 0
             history_out = [
                 {
-                    "time":     e["time"],
-                    "t_min":    round((e["ts"] - t0) / 60.0, 3),
-                    "ph":       e["ph"],
-                    "pump1_ml": e["pump1_ml"],
-                    "pump2_ml": e["pump2_ml"],
+                    "time":      e["time"],
+                    "t_min":     round((e["ts"] - t0) / 60.0, 3),
+                    "ph":        e["ph"],
+                    "target_ph": e["target_ph"],
+                    "pump1_ml":  e["pump1_ml"],
+                    "pump2_ml":  e["pump2_ml"],
                 }
                 for e in self.history
             ]
@@ -123,8 +124,8 @@ class Controller:
                 "pump2_state":  self.pump2_state,
                 "pump1_dosed":  self.pump1_dosed,
                 "pump2_dosed":  self.pump2_dosed,
-                "history":      history_out,
-                "session_file": os.path.basename(self._csv_file.name) if self._csv_file else None,
+                "history":        history_out,
+                "session_file":   os.path.basename(self._csv_file.name) if self._csv_file else None,
             }
 
     # ------------------------------------------------------------------
@@ -145,7 +146,7 @@ class Controller:
             self._csv_file      = open(path, "w", newline="")
             self._csv_writer    = csv.writer(self._csv_file)
             self._csv_writer.writerow(
-                ["time", "elapsed_min", "ph", "pump1_acid_ml", "pump2_base_ml"])
+                ["time", "elapsed_min", "ph", "target_ph", "pump1_acid_ml", "pump2_base_ml"])
             self._session_start = time.time()
             print(f"[{_ts()}] CTRL    session CSV -> {path}")
         except Exception as exc:
@@ -191,14 +192,18 @@ class Controller:
                 p1_addr  = self.cfg["pump1_addr"]
                 p2_addr  = self.cfg["pump2_addr"]
                 bus      = self.cfg["i2c_bus"]
+                simulate = self.cfg.get("simulate_ph", False)
 
             # Sensor read outside lock (~900 ms on real hardware)
-            try:
-                ph = sensors.get_ph(ph_addr, bus)
-            except Exception as exc:
-                print(f"[{_ts()}] CTRL    sensor error: {exc}")
-                time.sleep(poll_sec)
-                continue
+            if simulate:
+                ph = sensors.sim_ph(target)
+            else:
+                try:
+                    ph = sensors.get_ph(ph_addr, bus)
+                except Exception as exc:
+                    print(f"[{_ts()}] CTRL    sensor error: {exc}")
+                    time.sleep(poll_sec)
+                    continue
 
             with self.lock:
                 self.current_ph = ph
@@ -232,11 +237,12 @@ class Controller:
                 if status in ("running", "paused"):
                     now   = time.time()
                     entry = {
-                        "ts":       now,
-                        "time":     datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "ph":       ph,
-                        "pump1_ml": self.pump1_dosed,
-                        "pump2_ml": self.pump2_dosed,
+                        "ts":        now,
+                        "time":      datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "ph":        ph,
+                        "target_ph": target,
+                        "pump1_ml":  self.pump1_dosed,
+                        "pump2_ml":  self.pump2_dosed,
                     }
                     self.history.append(entry)
 
@@ -246,7 +252,8 @@ class Controller:
                             t_min = round((now - self._session_start) / 60.0, 3)
                             self._csv_writer.writerow([
                                 entry["time"], t_min,
-                                entry["ph"], entry["pump1_ml"], entry["pump2_ml"],
+                                entry["ph"], entry["target_ph"],
+                                entry["pump1_ml"], entry["pump2_ml"],
                             ])
                             self._csv_file.flush()
                         except Exception as exc:
@@ -256,3 +263,4 @@ class Controller:
 
 
 controller = Controller()
+

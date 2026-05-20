@@ -1,37 +1,54 @@
-﻿/* theme.css -- shared color tokens for all pages.
-   Edit values here to retheme the entire app. */
+﻿/* ============================================================
+   theme.css — single source of truth for all colors.
+   Edit values here to retheme the entire app.
+   ============================================================ */
 
 :root {
-  /* ── Backgrounds ── */
-  --bg-page:      #0d1117;   /* main page / chart background */
-  --bg-panel:     #161b22;   /* side panel, cards */
-  --bg-element:   #21262d;   /* buttons, inputs, badges */
-  --bg-hover:     #30363d;   /* hover state for elements */
+  /* ── Backgrounds ──────────────────────────────────────── */
+  --bg-page:        #0d1117;
+  --bg-page-fade:   rgba(13, 17, 23, 0.92);   /* bottom-bar gradient stop  */
+  --bg-panel:       #161b22;
+  --bg-panel-blur:  rgba(22, 27, 34, 0.93);   /* frosted side panel        */
+  --bg-element:     #21262d;                   /* buttons, inputs, badges   */
+  --bg-hover:       #30363d;                   /* hover fill                */
+  --bg-overlay:     rgba(0, 0, 0, 0.65);       /* modal backdrop            */
+  --bg-dosing:      #1a3d2b;                   /* active-dosing badge bg    */
 
-  /* ── Borders ── */
-  --border:       #30363d;   /* standard border */
-  --border-faint: #21262d;   /* dividers, subtle separators */
+  /* ── Borders ──────────────────────────────────────────── */
+  --border:         #30363d;
+  --border-faint:   #21262d;
 
-  /* ── Text ── */
-  --text-bright:  #e6edf3;   /* headings, important values */
-  --text-body:    #c9d1d9;   /* normal body text */
-  --text-muted:   #8b949e;   /* labels, secondary info */
+  /* ── Text ─────────────────────────────────────────────── */
+  --text-bright:    #e6edf3;   /* headings, key values        */
+  --text-body:      #c9d1d9;   /* normal body copy            */
+  --text-muted:     #adbac7;   /* labels, secondary info      */
+  --text-dim:       #8b949e;   /* very subdued (idle badges)  */
+  --text-disabled:  #484f58;   /* disabled controls           */
 
-  /* ── Accent colors ── */
-  --blue:         #58a6ff;   /* pH value, links, focus rings */
-  --green:        #56d364;   /* running state, dosing badge */
-  --yellow:       #e3b341;   /* paused state, warnings */
-  --red:          #f85149;   /* stopped state, errors */
+  /* ── State colors ─────────────────────────────────────── */
+  --color-running:      #56d364;
+  --color-running-bg:   #162e1c;   /* ctrl-zone solid bg — running */
+  --color-running-ring: #2a5c35;   /* ctrl-zone border   — running */
+  --color-paused:       #e3b341;
+  --color-paused-bg:    #2b2008;   /* ctrl-zone solid bg — paused  */
+  --color-paused-ring:  #5c4510;   /* ctrl-zone border   — paused  */
+  --color-stopped:      #f85149;
 
-  /* ── Buttons ── */
-  --btn-run:      #238636;   /* start/run button background */
-  --btn-run-glow: #23863688; /* start button glow */
-  --btn-stop:     #da3633;   /* stop button background */
-  --btn-stop-glow:#da363388; /* stop button glow */
+  /* ── Accent ───────────────────────────────────────────── */
+  --blue:           #58a6ff;
+  --blue-glow:      rgba(88,  166, 255, 0.27);
+  --blue-action:    #1f6feb;
 
-  /* ── Chart lines ── */
-  --chart-ph:     #58a6ff;   /* pH line color */
-  --chart-acid:   #f85149;   /* pump 1 (acid) line */
-  --chart-base:   #56d364;   /* pump 2 (base) line */
-  --chart-grid:   #21262d;   /* grid lines */
+  /* ── Control buttons ──────────────────────────────────── */
+  --btn-run:        #238636;
+  --btn-run-glow:   rgba(35, 134, 54,  0.53);
+  --btn-stop:       #da3633;
+  --btn-stop-glow:  rgba(218, 54,  51, 0.53);
+
+  /* ── Chart lines  (read by JS via getComputedStyle) ───── */
+  --chart-ph:       #58a6ff;
+  --chart-target:   #e3b341;
+  --chart-acid:     #f85149;
+  --chart-base:     #56d364;
+  --chart-grid:     #21262d;
 }

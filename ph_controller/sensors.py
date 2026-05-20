@@ -24,6 +24,15 @@ except Exception as _e:
 _i2c_lock = threading.Lock()
 
 
+# ── Demo simulation ─────────────────────────────────────────────
+
+def sim_ph(target: float) -> float:
+    """Sine wave that oscillates ±2.0 pH around target, one full cycle per 40 s."""
+    ph = round(target + 2.0 * math.sin(math.pi * time.time() / 20.0), 3)
+    print(f"[{_ts()}] SENSOR  sim pH = {ph:.3f}  (target={target:.1f})")
+    return ph
+
+
 # ── Core read ────────────────────────────────────────────────────
 
 def get_ph(address: int = 99, bus: int = 1) -> float:

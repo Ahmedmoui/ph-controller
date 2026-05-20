@@ -103,3 +103,14 @@ def api_session_download(filename):
     return send_from_directory(
         os.path.abspath(_SESSIONS_DIR), filename, as_attachment=True
     )
+
+
+@bp.route("/api/sessions/<filename>", methods=["DELETE"])
+def api_session_delete(filename):
+    if not filename.endswith(".csv") or "/" in filename or ".." in filename:
+        return jsonify({"error": "invalid filename"}), 400
+    path = os.path.join(os.path.abspath(_SESSIONS_DIR), filename)
+    if not os.path.isfile(path):
+        return jsonify({"error": "not found"}), 404
+    os.remove(path)
+    return jsonify({"deleted": filename})

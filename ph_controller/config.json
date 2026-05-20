@@ -5,5 +5,7 @@
   "i2c_bus": 1,
   "deadband": 0.1,
   "dose_ml": 0.5,
-  "poll_sec": 1.0
+  "poll_sec": 1.0,
+  "simulate_ph": false,
+  "max_volume_ml": 2500.0
 }
