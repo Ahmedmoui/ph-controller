@@ -7,6 +7,8 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/static/css/theme.css?v=3">
+  <link rel="stylesheet" href="/static/css/simple-keyboard.css">
+  <script src="/static/js/simple-keyboard.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { overflow: hidden; width: 100%; height: 100%; }
@@ -99,6 +101,21 @@
     #btn-pp   { background: var(--btn-run,  #238636); color: #fff; border-color: var(--btn-run,  #238636); box-shadow: 0 0 0 2px var(--btn-run,  #238636), 0 0 20px var(--btn-run-glow,  rgba(35,134,54,0.53)); }
     #btn-stop { background: var(--btn-stop, #da3633); color: #fff; border-color: var(--btn-stop, #da3633); box-shadow: 0 0 0 2px var(--btn-stop, #da3633), 0 0 20px var(--btn-stop-glow, rgba(218,54,51,0.53)); }
     #btn-stop:disabled { background: var(--bg-element, #21262d); border-color: var(--border, #30363d); color: var(--text-disabled, #484f58); box-shadow: none; cursor: not-allowed; filter: none; }
+
+    /* ── On-screen keyboard ── */
+    #kb-wrap {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 600;
+      background: var(--bg-panel, #161b22); border-top: 1px solid var(--border, #30363d);
+      padding: 10px 12px 16px; box-shadow: 0 -6px 30px rgba(0,0,0,0.6);
+    }
+    #kb-wrap.show { display: block; }
+    .model-overlay.kb-open { align-items: flex-start; padding-top: 16px; }
+    .simple-keyboard.hg-theme-default { background: transparent; padding: 0; border: none; }
+    .hg-button { background: var(--bg-element,#21262d) !important; border-bottom: 3px solid var(--bg-hover,#30363d) !important; color: var(--text-bright,#e6edf3) !important; border-radius: 6px !important; box-shadow: none !important; height: 46px !important; font-family: "Courier New",monospace !important; font-size: 1rem !important; }
+    .hg-button:active { background: var(--blue,#58a6ff) !important; color: #fff !important; }
+    .hg-button[data-skbtn="{bksp}"]  { background: #2d1b00 !important; color: var(--color-paused,#e3b341) !important; border-bottom-color: #5c3a00 !important; }
+    .hg-button[data-skbtn="{shift}"] { background: var(--bg-hover,#30363d) !important; }
+    .hg-button[data-skbtn="{space}"] { flex-grow: 3 !important; }
 
     /* ── Modal overlay ── */
     .model-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: var(--bg-overlay); align-items: center; justify-content: center; }
@@ -340,10 +357,11 @@ function saveData() {
   const input = document.getElementById("save-filename");
   input.value = `ph_session_${ts}`;
   document.getElementById("save-model").classList.add("show");
-  setTimeout(() => { input.select(); }, 80);
+  setTimeout(function() { input.select(); showKb(input); }, 80);
 }
 
 function closeSaveModal() {
+  hideKb();
   document.getElementById("save-model").classList.remove("show");
 }
 
@@ -405,10 +423,11 @@ function openNameSession() {
   const input = document.getElementById("session-name-input");
   input.value = `Session_${ts}`;
   document.getElementById("name-session-model").classList.add("show");
-  setTimeout(() => { input.select(); }, 80);
+  setTimeout(function() { input.select(); showKb(input); }, 80);
 }
 
 function closeNameSession() {
+  hideKb();
   document.getElementById("name-session-model").classList.remove("show");
 }
 
@@ -488,7 +507,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetchStatus();
   setInterval(fetchStatus, 2000);
+  initKeyboard();
 });
+// __ On-screen keyboard ______________________________________________
+let keyboard = null;
+let kbTarget  = null;
+
+function initKeyboard() {
+  try {
+    var KB = typeof SimpleKeyboard === "function" ? SimpleKeyboard : SimpleKeyboard.default;
+    keyboard = new KB({
+      onChange: function(val) { if (kbTarget) kbTarget.value = val; },
+      onKeyPress: function(btn) {
+        if (btn === "{shift}" || btn === "{lock}") {
+          keyboard.setOptions({ layoutName: keyboard.options.layoutName === "default" ? "shift" : "default" });
+          return;
+        }
+      },
+      layout: {
+        default: ["1 2 3 4 5 6 7 8 9 0 {bksp}", "q w e r t y u i o p", "a s d f g h j k l", "{shift} z x c v b n m - _", "{space}"],
+        shift:   ["! @ # $ % & * ( ) {bksp}",   "Q W E R T Y U I O P", "A S D F G H J K L", "{shift} Z X C V B N M - _", "{space}"]
+      },
+      display: { "{bksp}": "⌫", "{shift}": "⇧", "{space}": "Space" },
+      theme: "hg-theme-default",
+      preventMouseDownDefault: true
+    });
+    console.log("[KB] ready");
+  } catch(e) { console.error("[KB] init failed:", e); }
+}
+
+function showKb(inputEl) {
+  if (!keyboard) return;
+  kbTarget = inputEl;
+  keyboard.setInput(inputEl.value || "");
+  keyboard.setOptions({ layoutName: "default" });
+  document.getElementById("kb-wrap").classList.add("show");
+  document.querySelectorAll(".model-overlay.show").forEach(function(o) { o.classList.add("kb-open"); });
+}
+
+function hideKb() {
+  if (!keyboard) return;
+  document.getElementById("kb-wrap").classList.remove("show");
+  document.querySelectorAll(".model-overlay").forEach(function(o) { o.classList.remove("kb-open"); });
+  kbTarget = null;
+}
+
 </script>
 
 <!-- ── Save session model ── -->
@@ -548,6 +611,9 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </div>
 </div>
+
+<!-- ── On-screen keyboard ── -->
+<div id="kb-wrap"><div class="simple-keyboard"></div></div>
 
 </body>
 </html>
